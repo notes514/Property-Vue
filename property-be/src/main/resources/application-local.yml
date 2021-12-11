@@ -1,0 +1,10 @@
+spring:
+  datasource:
+      url: jdbc:mysql://localhost:3306/property_db?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: root
+  config:
+    activate:
+      on-profile: local
+logging:
+  config: classpath:logback-local.xml
