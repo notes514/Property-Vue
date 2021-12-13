@@ -1,4 +1,4 @@
-package com.guet.property.dao;
+package com.guet.property.mapper;
 
 import com.alibaba.fastjson.JSONObject;
 import com.guet.property.dto.session.SessionUserInfo;
@@ -7,12 +7,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Set;
 
 /**
- * 登录相关Dao
- *
  * @author dhxstart
- * @date 2021/12/9 8:42
+ * @date 2021/12/11 17:16
  */
-public interface LoginDao {
+public interface LoginMapper {
 
     /**
      * 根据用户名和密码查询对应的用户

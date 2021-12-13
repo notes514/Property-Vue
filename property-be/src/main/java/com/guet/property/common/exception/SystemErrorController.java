@@ -1,4 +1,4 @@
-package com.guet.property.config.exception;
+package com.guet.property.common.exception;
 
 import com.alibaba.fastjson.JSONObject;
 import com.guet.property.util.CommonUtils;

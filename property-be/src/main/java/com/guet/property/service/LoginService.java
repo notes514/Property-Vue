@@ -1,61 +1,34 @@
 package com.guet.property.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.guet.property.config.exception.CommonJsonException;
-import com.guet.property.dao.LoginDao;
-import com.guet.property.dto.session.SessionUserInfo;
-import com.guet.property.util.CommonUtils;
-import com.guet.property.util.constants.ErrorEnum;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
- * 登录service实现类
+ * 此服务接口用于实现针对于用户登录的常用操作
  *
  * @author dhxstart
- * @date 2021/12/9 19:54
+ * @date 2021/12/11 18:12
  */
-@Service
-@Slf4j
-public class LoginService {
-
-    @Autowired
-    private LoginDao loginDao;
-    @Autowired
-    private TokenService tokenService;
+public interface LoginService {
 
     /**
-     * 登录表单提交
+     * 登录提交表单
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
      */
-    public JSONObject authLogin(JSONObject jsonObject) {
-        String username = jsonObject.getString("username");
-        String password = jsonObject.getString("password");
-        JSONObject info = new JSONObject();
-        JSONObject user = loginDao.checkUser(username, password);
-        if (user == null) {
-            throw new CommonJsonException(ErrorEnum.E_10010);
-        }
-        String token = tokenService.generateToken(username);
-        info.put("token", token);
-        return CommonUtils.successJson(info);
-    }
+    JSONObject authLogin(JSONObject jsonObject);
 
     /**
      * 查询当前登录用户的权限等信息
+     *
+     * @return JSONObject
      */
-    public JSONObject getInfo() {
-        // 从session获取用户信息
-        SessionUserInfo userInfo = tokenService.getUserInfo();
-        log.info(userInfo.toString());
-        return CommonUtils.successJson(userInfo);
-    }
+    JSONObject getInfo();
 
     /**
      * 退出登录
+     *
+     * @return JSONObject
      */
-    public JSONObject logout() {
-        tokenService.invalidateToken();
-        return CommonUtils.successJson();
-    }
+    JSONObject logout();
 }

@@ -1,4 +1,4 @@
-package com.guet.property.config.annotation;
+package com.guet.property.common.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

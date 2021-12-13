@@ -1,4 +1,4 @@
-package com.guet.property.config.exception;
+package com.guet.property.common.exception;
 
 /**
  * 自定义未登录异常类

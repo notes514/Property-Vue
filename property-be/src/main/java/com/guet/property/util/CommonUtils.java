@@ -1,7 +1,7 @@
 package com.guet.property.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.guet.property.config.exception.CommonJsonException;
+import com.guet.property.common.exception.CommonJsonException;
 import com.guet.property.util.constants.Constants;
 import com.guet.property.util.constants.ErrorEnum;
 

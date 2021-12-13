@@ -1,4 +1,4 @@
-package com.guet.property.config.system;
+package com.guet.property.common.config;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

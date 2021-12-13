@@ -1,16 +1,16 @@
-package com.guet.property.dao;
+package com.guet.property.mapper;
 
 import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
 
 /**
- * 文章Dao层
+ * 文章表Mapper接口
  *
  * @author dhxstart
- * @date 2021/12/9 8:40
+ * @date 2021/12/11 17:14
  */
-public interface ArticleDao {
+public interface ArticleMapper {
     /**
      * 新增文章
      *

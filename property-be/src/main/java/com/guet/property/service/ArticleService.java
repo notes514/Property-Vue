@@ -1,51 +1,39 @@
 package com.guet.property.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.guet.property.dao.ArticleDao;
-import com.guet.property.util.CommonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
- * 此服务类用于实现针对于tb_article表的常用操作
+ * 此服务接口用于实现针对于tb_article表的常用操作
  *
  * @author dhxstart
  * @date 2021/12/9 19:53
  */
-@Service
-public class ArticleService {
-
-    @Autowired
-    private ArticleDao articleDao;
+public interface ArticleService {
 
     /**
      * 新增文章
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
      */
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject addArticle(JSONObject jsonObject) {
-        articleDao.addArticle(jsonObject);
-        return CommonUtils.successJson();
-    }
+    JSONObject addArticle(JSONObject jsonObject);
 
     /**
-     * 文章列表
+     * 获取文章列表
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
      */
-    public JSONObject listArticle(JSONObject jsonObject) {
-        CommonUtils.fillPageParam(jsonObject);
-        int count = articleDao.countArticle(jsonObject);
-        List<JSONObject> list = articleDao.listArticle(jsonObject);
-        return CommonUtils.successPage(jsonObject, list, count);
-    }
+    JSONObject listArticle(JSONObject jsonObject);
 
     /**
      * 更新文章
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
      */
     @Transactional(rollbackFor = Exception.class)
-    public JSONObject updateArticle(JSONObject jsonObject) {
-        articleDao.updateArticle(jsonObject);
-        return CommonUtils.successJson();
-    }
+    JSONObject updateArticle(JSONObject jsonObject);
 }

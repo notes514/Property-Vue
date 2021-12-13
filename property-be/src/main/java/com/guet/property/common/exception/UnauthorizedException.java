@@ -1,4 +1,4 @@
-package com.guet.property.config.exception;
+package com.guet.property.common.exception;
 
 /**
  * 此类用于访问权限不足的接口、数据所报出的异常

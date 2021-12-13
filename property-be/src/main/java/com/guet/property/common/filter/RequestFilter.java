@@ -1,6 +1,6 @@
-package com.guet.property.config.filter;
+package com.guet.property.common.filter;
 
-import com.guet.property.config.exception.CommonJsonException;
+import com.guet.property.common.exception.CommonJsonException;
 import com.guet.property.dto.session.SessionUserInfo;
 import com.guet.property.service.TokenService;
 import com.guet.property.util.StringUtils;

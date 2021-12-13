@@ -1,8 +1,8 @@
 package com.guet.property.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.guet.property.config.annotation.Logical;
-import com.guet.property.config.annotation.RequiresPermissions;
+import com.guet.property.common.annotation.Logical;
+import com.guet.property.common.annotation.RequiresPermissions;
 import com.guet.property.service.UserService;
 import com.guet.property.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 用户/角色/权限相关Controller
+ * 用户/角色/权限相关 前端控制器
  *
  * @author dhxstart
- * @date 2021/12/7 23:47
+ * @date 2021/12/11 18:28
  */
 @RestController
 @RequestMapping("/user")

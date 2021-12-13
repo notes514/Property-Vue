@@ -1,4 +1,4 @@
-package com.guet.property.dao;
+package com.guet.property.mapper;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.annotations.Param;
@@ -6,12 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * 用户/角色/权限
- *
  * @author dhxstart
- * @date 2021/12/9 8:44
+ * @date 2021/12/11 17:16
  */
-public interface UserDao {
+public interface UserMapper {
     /**
      * 查询用户数量
      *

@@ -1,4 +1,4 @@
-package com.guet.property.config.annotation;
+package com.guet.property.common.annotation;
 
 /**
  * 此枚举类用于逻辑处理

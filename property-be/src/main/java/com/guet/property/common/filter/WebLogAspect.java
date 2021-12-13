@@ -1,4 +1,4 @@
-package com.guet.property.config.filter;
+package com.guet.property.common.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -36,7 +36,7 @@ public class WebLogAspect {
     public void webLog() {
     }
 
-    @Pointcut(" execution(public * com.guet.property.config.exception.GlobalExceptionHandler.*(..))")
+    @Pointcut(" execution(public * com.guet.property.common.exception.GlobalExceptionHandler.*(..))")
     public void exceptions() {
     }
 

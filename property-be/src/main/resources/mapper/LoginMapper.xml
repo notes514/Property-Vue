@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.guet.property.dao.LoginDao">
+<mapper namespace="com.guet.property.mapper.LoginMapper">
 
     <select id="checkUser" resultType="com.alibaba.fastjson.JSONObject">
         SELECT u.id userId
@@ -10,7 +10,6 @@
           AND u.password = #{password}
           AND u.status = '1'
     </select>
-
 
     <resultMap id="userInfo" type="com.guet.property.dto.session.SessionUserInfo">
         <id column="userId" property="userId"/>

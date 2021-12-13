@@ -1,8 +1,8 @@
-package com.guet.property.config.filter;
+package com.guet.property.common.filter;
 
-import com.guet.property.config.annotation.Logical;
-import com.guet.property.config.annotation.RequiresPermissions;
-import com.guet.property.config.exception.UnauthorizedException;
+import com.guet.property.common.annotation.Logical;
+import com.guet.property.common.annotation.RequiresPermissions;
+import com.guet.property.common.exception.UnauthorizedException;
 import com.guet.property.dto.session.SessionUserInfo;
 import com.guet.property.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class PermissionAspect {
     @Autowired
     TokenService tokenService;
 
-    @Before("@annotation(com.guet.property.config.annotation.RequiresPermissions)")
+    @Before("@annotation(com.guet.property.common.annotation.RequiresPermissions)")
     public void before(JoinPoint joinPoint) {
         log.debug("开始校验[操作权限]");
         SessionUserInfo userInfo = tokenService.getUserInfo();
