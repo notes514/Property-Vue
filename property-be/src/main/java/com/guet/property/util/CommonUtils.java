@@ -1,5 +1,6 @@
 package com.guet.property.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.guet.property.common.exception.CommonJsonException;
 import com.guet.property.util.constants.Constants;
@@ -153,7 +154,7 @@ public class CommonUtils {
     }
 
     /**
-     * 在分页查询之前,为查询条件里加上分页参数
+     * 在分页查询之前，为查询条件里加上分页参数
      *
      * @param paramObject    查询条件json
      * @param defaultPageRow 默认的每页条数,即前端不传pageRow参数时的每页条数
@@ -176,5 +177,10 @@ public class CommonUtils {
      */
     public static void fillPageParam(final JSONObject paramObject) {
         fillPageParam(paramObject, 10);
+    }
+
+    public static List<JSONObject> getJsonObjectList(Object object) {
+        String jsonString = JSON.toJSONString(object);
+        return JSON.parseArray(jsonString, JSONObject.class);
     }
 }

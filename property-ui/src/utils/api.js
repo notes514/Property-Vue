@@ -23,6 +23,7 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     const res = response.data;
+    console.log(res.info)
     if (res.code === '200') {
       return res.info;
     } else if (res.code === "20011") {

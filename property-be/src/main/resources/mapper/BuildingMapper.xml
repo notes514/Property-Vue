@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guet.property.mapper.BuildingMapper">
+
+    <select id="listBuilding" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            b.id id,
+            b.building_name buildingName,
+            b.total_households totalHouseholds,
+            b.type type ,
+            b.description description,
+            date_format(b.create_time, '%Y-%m-%d %T') createTime,
+            date_format(b.update_time, '%Y-%m-%d %T') updateTime
+        FROM tb_building b
+        ORDER BY b.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+</mapper>

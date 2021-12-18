@@ -30,8 +30,8 @@
                         username                                username,
                         nickname                                nickname,
                         status                           deleteStatus,
-                        DATE_FORMAT(create_time, '%Y.%m.%d %T') createTime,
-                        DATE_FORMAT(update_time, '%Y.%m.%d %T') updateTime
+                        DATE_FORMAT(create_time, '%Y-%m-%d %T') createTime,
+                        DATE_FORMAT(update_time, '%Y-%m-%d %T') updateTime
                  FROM tb_sys_user
                  WHERE status = '1'
                  ORDER BY id

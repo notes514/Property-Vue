@@ -77,7 +77,11 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public void invalidateToken() {
-
+        String token = MDC.get("token");
+        if (!StringUtils.isNullOrEmpty(token)) {
+            cacheMap.invalidate(token);
+        }
+        log.debug("退出登录,清除缓存:token={}", token);
     }
 
     /**

@@ -20,8 +20,8 @@
         SELECT
             w.id                                      id,
             w.content                                 content,
-            date_format(w.create_time, '%Y.%m.%d %T') createTime,
-            date_format(w.update_time, '%Y.%m.%d %T') updateTime
+            date_format(w.create_time, '%Y-%m-%d %T') createTime,
+            date_format(w.update_time, '%Y-%m-%d %T') updateTime
         FROM tb_article w
         WHERE w.status = '1'
         ORDER BY w.id DESC

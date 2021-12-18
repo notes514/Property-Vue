@@ -27,8 +27,8 @@ public class ArticleController {
      */
     @RequiresPermissions("article:list")
     @GetMapping("/listArticle")
-    public JSONObject listArticle(HttpServletRequest request) {
-        return articleService.listArticle(CommonUtils.request2Json(request));
+    public JSONObject listArticle(HttpServletRequest requestJson) {
+        return articleService.listArticle(CommonUtils.request2Json(requestJson));
     }
 
     /**

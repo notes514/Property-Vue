@@ -18,7 +18,23 @@ export const constantRouterMap = [
     children: [{
       path: 'dashboard', component: _import('dashboard/index')
     }]
-  }
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/building',
+    name: '功能模块',
+    meta: {title: '功能模块', icon: 'tree'},
+    children: [
+      {
+        path: 'building',
+        name: '楼栋',
+        component: _import('building/building'),
+        meta: {title: '楼栋', icon: 'example'},
+        menu: 'building'
+      },
+    ]
+  },
 ]
 export default new Router({
   // mode: 'history', //后端支持可开
