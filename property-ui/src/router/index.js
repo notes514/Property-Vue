@@ -30,7 +30,7 @@ export const constantRouterMap = [
         path: 'building',
         name: '楼栋',
         component: _import('building/building'),
-        meta: {title: '楼栋', icon: 'example'},
+        meta: {title: '楼栋管理', icon: 'example'},
         menu: 'building'
       },
     ]

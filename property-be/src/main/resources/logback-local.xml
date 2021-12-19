@@ -72,6 +72,6 @@
     <logger name="org.apache" level="WARN"/>
     <logger name="com.guet.property" level="DEBUG"/>
     <!--如果需要打印SQL,可以把下面的级别设置为DEBUG -->
-    <logger name="com.guet.property.dao" level="DEBUG"/>
+    <logger name="com.guet.property.mapper" level="DEBUG"/>
 
 </configuration>

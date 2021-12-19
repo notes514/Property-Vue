@@ -13,8 +13,8 @@
         <id column="userId" property="userId"/>
         <result column="username" property="username"/>
         <result column="nickname" property="nickname"/>
-        <result column="createTime" property="createTime"/>
-        <result column="updateTime" property="updateTime"/>
+        <result column="gmtCreate" property="gmtCreate"/>
+        <result column="gmtModified" property="gmtModified"/>
         <result column="deleteStatus" property="deleteStatus"/>
         <collection property="roles" ofType="com.alibaba.fastjson.JSONObject">
             <id column="roleId" property="roleId"/>
@@ -30,8 +30,8 @@
                         username                                username,
                         nickname                                nickname,
                         status                           deleteStatus,
-                        DATE_FORMAT(create_time, '%Y-%m-%d %T') createTime,
-                        DATE_FORMAT(update_time, '%Y-%m-%d %T') updateTime
+                        DATE_FORMAT(gmt_create, '%Y-%m-%d %T') gmtCreate,
+                        DATE_FORMAT(gmt_modified, '%Y-%m-%d %T') gmtModified
                  FROM tb_sys_user
                  WHERE status = '1'
                  ORDER BY id

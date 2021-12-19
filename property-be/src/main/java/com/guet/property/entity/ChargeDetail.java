@@ -1,30 +1,30 @@
 package com.guet.property.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
+ * <p>
  * 收费名细表
+ * </p>
  *
  * @author dhxstart
- * @date 2021/12/11 18:25
+ * @since 2021-12-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("tb_charge_detail")
-public class ChargeDetail {
+public class ChargeDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键ID
+     * 收费明细ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -50,6 +50,16 @@ public class ChargeDetail {
     private String chargeItemName;
 
     /**
+     * 承办人名称
+     */
+    private String contractor;
+
+    /**
+     * 承办人联系电话
+     */
+    private String telephone;
+
+    /**
      * 应收金额(￥)，单位分
      */
     private BigDecimal payMoney;
@@ -65,14 +75,31 @@ public class ChargeDetail {
     private LocalDateTime payTime;
 
     /**
+     * 状态：0-生效中（默认），1-已过期
+     */
+    private String status;
+
+    /**
+     * 逻辑删除:0-未删除（默认），1-已删除
+     */
+    @TableLogic
+    private String deleted;
+
+    /**
+     * 乐观锁
+     */
+    @Version
+    private Integer version;
+
+    /**
      * 创建时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private LocalDateTime gmtCreate;
 
     /**
      * 更新时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private LocalDateTime gmtModified;
+
+
 }

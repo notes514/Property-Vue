@@ -19,8 +19,8 @@
       <el-table-column align="center" prop="totalHouseholds" label="总户数" width="200"/>
       <el-table-column align="center" prop="type" label="类型" width="200"/>
       <el-table-column align="center" prop="description" label="描述" style="width: 40px"/>
-      <el-table-column align="center" prop="createTime" label="创建时间" width="200"/>
-      <el-table-column align="center" prop="updateTime" label="最近修改时间" width="200"/>
+      <el-table-column align="center" prop="gmtCreate" label="创建时间" width="200"/>
+      <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="200"/>
       <el-table-column align="center" label="管理" width="200">
         <template slot-scope="scope">
           <el-button type="primary" icon="edit" @click="showUpdate(scope.$index)" v-permission="'role:update'">修改
@@ -36,7 +36,7 @@
       :current-page="listQuery.pageNum"
       :page-size="listQuery.pageRow"
       :total="totalCount"
-      :page-sizes="[3, 6, 9, 12]"
+      :page-sizes="[10, 20, 30, 50]"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
@@ -90,7 +90,7 @@ export default {
       listLoading: false,//数据加载等待动画
       listQuery: {
         pageNum: 1,//页码
-        pageRow: 3,//每页条数
+        pageRow: 10,//每页条数
         name: ''
       },
       dialogStatus: 'create',
@@ -107,8 +107,8 @@ export default {
         totalHouseholds: '',
         type: '',
         description: '',
-        createTime: '',
-        updateTime: ''
+        gmtCreate: '',
+        gmtModified: ''
       },
       typeList: [
         {
@@ -226,7 +226,7 @@ export default {
         this.$message.success('修改成功！')
         this.getList();
         this.dialogFormVisible = false
-      })
+      });
     },
     removeBuilding() {
       // 删除楼栋

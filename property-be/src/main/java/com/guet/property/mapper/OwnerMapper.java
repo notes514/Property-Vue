@@ -1,7 +1,10 @@
 package com.guet.property.mapper;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.guet.property.entity.Owner;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,11 @@ import com.guet.property.entity.Owner;
  */
 public interface OwnerMapper extends BaseMapper<Owner> {
 
+    /**
+     * 业主列表
+     *
+     * @param jsonObject json参数
+     * @return List<JSONObject>
+     */
+    List<JSONObject> listOwner(JSONObject jsonObject);
 }

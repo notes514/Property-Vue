@@ -20,8 +20,9 @@
         SELECT
             w.id                                      id,
             w.content                                 content,
-            date_format(w.create_time, '%Y-%m-%d %T') createTime,
-            date_format(w.update_time, '%Y-%m-%d %T') updateTime
+            w.version                                  version,
+            date_format(w.gmt_create, '%Y-%m-%d %T') gmtCreate,
+            date_format(w.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_article w
         WHERE w.status = '1'
         ORDER BY w.id DESC

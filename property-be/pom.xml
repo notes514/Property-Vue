@@ -49,6 +49,19 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- mybatis-plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.2</version>
+        </dependency>
         <!-- redis依赖配置 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -66,12 +79,6 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.76</version>
         </dependency>
-        <!-- mybatis-plus -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.2</version>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -82,14 +89,18 @@
             <artifactId>caffeine</artifactId>
             <version>2.9.1</version>
         </dependency>
-        <!-- lombok -->
+        <!-- swagger2 -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
-            <scope>provided</scope>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>3.0.0</version>
         </dependency>
-
+        <!--swagger2-ui-starter（视觉的样式UI） -->
+        <dependency>
+            <groupId>net.guerlab.spring</groupId>
+            <artifactId>guerlab-spring-swagger2-ui-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

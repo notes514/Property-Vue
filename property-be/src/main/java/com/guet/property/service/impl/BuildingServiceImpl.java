@@ -1,5 +1,6 @@
 package com.guet.property.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -7,7 +8,6 @@ import com.guet.property.entity.Building;
 import com.guet.property.mapper.BuildingMapper;
 import com.guet.property.service.BuildingService;
 import com.guet.property.util.CommonUtils;
-import com.guet.property.util.constants.ErrorEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,30 +36,33 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
 
     @Override
     public JSONObject addBuilding(JSONObject jsonObject) {
-        String buildingName = jsonObject.getString("buildingName");
-        int exist = buildingMapper.selectCount(new QueryWrapper<Building>().eq("building_name", buildingName));
-        System.out.println("exist：" + exist);
+        Building building = JSON.parseObject(jsonObject.toJSONString(), Building.class);
+        int exist = buildingMapper.selectCount(new QueryWrapper<Building>().eq("building_name",
+                building.getBuildingName()));
         if (exist > 0) {
-            return CommonUtils.errorJson(ErrorEnum.E_10009);
+            return CommonUtils.filedJson("该楼栋已存在！");
         }
-        Building building = new Building();
-        building.setBuildingName(buildingName);
-        building.setTotalHouseholds(jsonObject.getIntValue("totalHouseholds"));
-        building.setType(jsonObject.getString("type"));
-        building.setDescription(jsonObject.getString("description"));
-        buildingMapper.insert(building);
+
+        int insert = buildingMapper.insert(building);
+        if (insert <= 0) {
+            return CommonUtils.filedJson("添加失败！");
+        }
         return CommonUtils.successJson();
     }
 
     @Override
     public JSONObject updateBuilding(JSONObject jsonObject) {
-        int id = jsonObject.getIntValue("id");
-        Building building = new Building();
-        building.setBuildingName(jsonObject.getString("buildingName"));
-        building.setTotalHouseholds(jsonObject.getIntValue("totalHouseholds"));
-        building.setType(jsonObject.getString("type"));
-        building.setDescription(jsonObject.getString("description"));
-        update(building, new QueryWrapper<Building>().eq("id", id));
+        Building building = JSON.parseObject(jsonObject.toJSONString(), Building.class);
+        Building buildingObj = buildingMapper.selectById(building.getId());
+        buildingObj.setType(building.getType());
+        buildingObj.setBuildingName(building.getBuildingName());
+        buildingObj.setTotalHouseholds(building.getTotalHouseholds());
+        buildingObj.setDescription(building.getDescription());
+
+        int update = buildingMapper.updateById(buildingObj);
+        if (update <= 0) {
+            return CommonUtils.filedJson("更新失败！");
+        }
         return CommonUtils.successJson();
     }
 
@@ -68,11 +71,12 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
         int id = jsonObject.getIntValue("id");
         int exist = buildingMapper.selectCount(new QueryWrapper<Building>().eq("id", id));
         if (exist <= 0) {
-            return CommonUtils.errorJson(ErrorEnum.E_10009);
+            return CommonUtils.filedJson("该楼栋已存在！");
         }
-        int flag = buildingMapper.deleteById(id);
-        if (flag <= 0) {
-            return CommonUtils.errorJson(ErrorEnum.E_500);
+
+        int delete = buildingMapper.deleteById(id);
+        if (delete <= 0) {
+            return CommonUtils.filedJson("删除失败！");
         }
         return CommonUtils.successJson();
     }

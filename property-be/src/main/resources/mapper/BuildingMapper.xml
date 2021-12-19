@@ -3,14 +3,14 @@
 <mapper namespace="com.guet.property.mapper.BuildingMapper">
 
     <select id="listBuilding" resultType="com.alibaba.fastjson.JSONObject">
-        SELECT
-            b.id id,
-            b.building_name buildingName,
-            b.total_households totalHouseholds,
-            b.type type ,
-            b.description description,
-            date_format(b.create_time, '%Y-%m-%d %T') createTime,
-            date_format(b.update_time, '%Y-%m-%d %T') updateTime
+        SELECT b.id                                       id,
+               b.building_name                            buildingName,
+               b.total_households                         totalHouseholds,
+               b.type                                     type,
+               b.description                              description,
+               b.version                                  version,
+               date_format(b.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(b.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_building b
         ORDER BY b.id ASC LIMIT #{offSet}, #{pageRow}
     </select>

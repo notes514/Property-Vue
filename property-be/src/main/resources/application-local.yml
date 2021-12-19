@@ -1,18 +1,24 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/property_db?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
-  config:
-    activate:
-      on-profile: local
-# mybatis-plus
-mybatis-plus:
-  mapper-locations: classpath*:/mapper/*.xml
-  #  configuration:
-  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
-# logging
-logging:
-  config: classpath:logback-local.xml
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/property_db?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root
+#  config:
+#    activate:
+#      on-profile: local
+## mybatis-plus
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/*.xml
+#  # 配置逻辑删除
+#  global-config:
+#    db-config:
+#      logic-delete-field: deleted
+#      logic-delete-value: 0
+#      logic-not-delete-value: 1
+#  #  configuration:
+#  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+## logging
+#logging:
+#  config: classpath:logback-local.xml

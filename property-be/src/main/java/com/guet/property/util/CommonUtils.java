@@ -37,6 +37,22 @@ public class CommonUtils {
     }
 
     /**
+     * 返回错误信息
+     *
+     * @param message 描述
+     * @return JSONObject
+     * @author dhxstart
+     * @date 2021/12/18 11:29
+     */
+    public static JSONObject filedJson(String message) {
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("code", Constants.FAILED_CODE);
+        resultJson.put("msg", message);
+        resultJson.put("info", null);
+        return resultJson;
+    }
+
+    /**
      * 返回错误信息JSON
      */
     public static JSONObject errorJson(ErrorEnum errorEnum) {
