@@ -35,6 +35,18 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
     }
 
     @Override
+    public JSONObject likeBuildingNameAndType(JSONObject jsonObject) {
+        QueryWrapper<Building> wrapper = new QueryWrapper<>();
+        wrapper.like("building_name", jsonObject.getString("buildingName"));
+        wrapper.eq("type", jsonObject.getString("type"));
+        int count = buildingMapper.selectCount(wrapper);
+
+        CommonUtils.fillPageParam(jsonObject);
+        List<JSONObject> list = buildingMapper.likeBuildingNameAndType(jsonObject);
+        return CommonUtils.successPage(jsonObject, list, count);
+    }
+
+    @Override
     public JSONObject addBuilding(JSONObject jsonObject) {
         Building building = JSON.parseObject(jsonObject.toJSONString(), Building.class);
         int exist = buildingMapper.selectCount(new QueryWrapper<Building>().eq("building_name",

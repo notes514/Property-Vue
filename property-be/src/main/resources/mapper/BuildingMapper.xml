@@ -6,12 +6,35 @@
         SELECT b.id                                       id,
                b.building_name                            buildingName,
                b.total_households                         totalHouseholds,
-               b.type                                     type,
+               b.type                                     buildingType,
                b.description                              description,
                b.version                                  version,
                date_format(b.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(b.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_building b
+        WHERE b.deleted = '0'
+        ORDER BY b.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="likeBuildingNameAndType" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT b.id                                       id,
+               b.building_name                            buildingName,
+               b.total_households                         totalHouseholds,
+               b.type                                     buildingType,
+               b.description                              description,
+               b.version                                  version,
+               date_format(b.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(b.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_building b
+        <where>
+            <if test="buildingName != null and buildingName != ''">
+                b.building_name LIKE concat('%', #{buildingName}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND b.type = #{type}
+            </if>
+            AND b.deleted = '0'
+        </where>
         ORDER BY b.id ASC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

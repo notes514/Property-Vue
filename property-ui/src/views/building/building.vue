@@ -1,31 +1,47 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-form>
+      <el-form :inline="true" class="demo-form-inline">
+        <el-form-item label="楼栋名称">
+          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="buildingNameText" clearable
+                    style="width: 250px">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="楼型">
+          <el-select v-model="typeSelect" placeholder="请选择楼型">
+            <el-option label="全部" value="-1"></el-option>
+            <el-option label="电梯房" value="0"></el-option>
+            <el-option label="楼梯房" value="1"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="plus" @click="showCreate" v-permission="'role:add'">添加
-          </el-button>
+          <el-button type="primary" icon="el-icon-search" @click="queryBuildingNameAndTypeList">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showCreate" v-permission="'role:add'"
+                     plain>添加楼栋</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="list" v-loading="listLoading" border fit
-              highlight-current-row>
-      <el-table-column align="center" label="序号" width="80">
+    <el-table :data="list" v-loading="listLoading" border fit highlight-current-row>
+      <el-table-column align="center" label="序号" width="50">
         <template slot-scope="scope">
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="buildingName" label="楼栋" width="200"></el-table-column>
-      <el-table-column align="center" prop="totalHouseholds" label="总户数" width="200"/>
-      <el-table-column align="center" prop="type" label="类型" width="200"/>
+      <el-table-column align="center" prop="totalHouseholds" label="总户数" width="160"/>
+      <el-table-column align="center" prop="buildingType" label="类型" :formatter="typeFormat" width="160"/>
       <el-table-column align="center" prop="description" label="描述" style="width: 40px"/>
       <el-table-column align="center" prop="gmtCreate" label="创建时间" width="200"/>
       <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="200"/>
       <el-table-column align="center" label="管理" width="200">
         <template slot-scope="scope">
-          <el-button type="primary" icon="edit" @click="showUpdate(scope.$index)" v-permission="'role:update'">修改
+          <el-button type="primary" size="mini" icon="edit" @click="showUpdate(scope.$index)"
+                     v-permission="'role:update'">修改
           </el-button>
-          <el-button type="primary" icon="edit" @click="showRemove(scope.$index)" v-permission="'role:delete'">删除
+          <el-button type="danger" size="mini" icon="edit" @click="showRemove(scope.$index)"
+                     v-permission="'role:delete'">删除
           </el-button>
         </template>
       </el-table-column>
@@ -37,7 +53,8 @@
       :page-size="listQuery.pageRow"
       :total="totalCount"
       :page-sizes="[10, 20, 30, 50]"
-      layout="total, sizes, prev, pager, next, jumper">
+      layout="total, sizes, prev, pager, next, jumper"
+      style="margin-top: 16px;">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="tempBuilding" label-position="left" label-width="80px"
@@ -51,7 +68,7 @@
           </el-input>
         </el-form-item>
         <el-form-item label="楼栋类型" v-show="dialogStatus !== 'remove'" required>
-          <el-select v-model="tempBuilding.type" placeholder="请选择" style="width: 20%;">
+          <el-select v-model="tempBuilding.buildingType" placeholder="请选择" style="width: 20%;">
             <el-option
               v-for="item in typeList"
               :key="item.value"
@@ -67,14 +84,14 @@
         </el-form-item>
 
         <el-form-item v-show="dialogStatus === 'remove'" required>
-          <span>确定要删除该楼栋吗？</span>
+          <span style="font-size: 16px">确定要删除 {{tempBuilding.buildingName}} 吗？</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="success" v-if="dialogStatus==='create'" @click="createBuilding">创 建</el-button>
-        <el-button type="primary" v-if="dialogStatus==='update'" v-else @click="updateBuilding">修 改</el-button>
-        <el-button type="primary" v-if="dialogStatus==='remove'" @click="removeBuilding">确 定</el-button>
+        <el-button type="success" v-show="dialogStatus==='create'" @click="createBuilding">创 建</el-button>
+        <el-button type="primary" v-show="dialogStatus==='update'" @click="updateBuilding">修 改</el-button>
+        <el-button type="primary" v-show="dialogStatus==='remove'" @click="removeBuilding">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -85,12 +102,21 @@ export default {
   name: "building",
   data() {
     return {
-      totalCount: 0, //分页组件--数据总条数
-      list: [],//表格的数据
-      listLoading: false,//数据加载等待动画
+      // 搜索内容数据
+      buildingNameText: '',
+      // 类型选择
+      typeSelect: '',
+      //分页组件--数据总条数
+      totalCount: 0,
+      //表格的数据
+      list: [],
+      //数据加载等待动画
+      listLoading: false,
       listQuery: {
-        pageNum: 1,//页码
-        pageRow: 10,//每页条数
+        //页码
+        pageNum: 1,
+        //每页条数
+        pageRow: 10,
         name: ''
       },
       dialogStatus: 'create',
@@ -105,7 +131,7 @@ export default {
         id: '',
         buildingName: '',
         totalHouseholds: '',
-        type: '',
+        buildingType: '',
         description: '',
         gmtCreate: '',
         gmtModified: ''
@@ -160,7 +186,7 @@ export default {
       // 显示新增对话框
       this.tempBuilding.buildingName = "";
       this.tempBuilding.totalHouseholds = "";
-      this.tempBuilding.type = "";
+      this.tempBuilding.buildingType = "";
       this.tempBuilding.description = "";
       this.dialogStatus = "create"
       this.dialogFormVisible = true
@@ -170,7 +196,7 @@ export default {
       this.tempBuilding.id = building.id;
       this.tempBuilding.buildingName = building.buildingName;
       this.tempBuilding.totalHouseholds = building.totalHouseholds;
-      this.tempBuilding.type = building.type;
+      this.tempBuilding.buildingType = building.buildingType;
       this.tempBuilding.description = building.description;
       this.dialogStatus = "update"
       this.dialogFormVisible = true
@@ -178,8 +204,18 @@ export default {
     showRemove($index) {
       let building = this.list[$index];
       this.tempBuilding.id = building.id;
+      this.tempBuilding.buildingName = building.buildingName;
       this.dialogStatus = "remove"
       this.dialogFormVisible = true
+    },
+    /**
+     * 显示类型
+     *
+     * @param building 楼栋实体
+     * @returns {string} 字符串
+     */
+    typeFormat(building) {
+      return building.buildingType === '0' ? '电梯房' : '楼梯房';
     },
     validate(isCreate) {
       let building = this.tempBuilding
@@ -192,7 +228,7 @@ export default {
         return false
       }
       console.log(building.type.trim())
-      if (building.type.trim().length === 0) {
+      if (building.buildingType.trim().length === 0) {
         this.$message.warning('请选择楼栋类型')
         return false
       }
@@ -201,6 +237,34 @@ export default {
         return false
       }
       return true
+    },
+    queryValidate(isCreate) {
+      if (isCreate && this.buildingNameText.trim().length === 0 && this.typeSelect.trim().length === 0) {
+        this.$message.warning('请输入或选择您的查询条件！')
+        return false
+      }
+      return true
+    },
+    /**
+     * 根据楼栋名称和类型进行模糊搜索
+     */
+    queryBuildingNameAndTypeList() {
+      if (!this.queryValidate(true)) return
+      this.listLoading = true;
+      this.api({
+        url: "/building/likeBuilding",
+        method: "get",
+        params: {
+          "pageNum" : this.listQuery.pageNum,
+          "pageRow" : this.listQuery.pageRow,
+          "buildingName" : this.buildingNameText.trim(),
+          "type" : this.typeSelect === '-1' ? '' : this.typeSelect.trim(),
+        }
+      }).then(data => {
+        this.listLoading = false;
+        this.list = data.list;
+        this.totalCount = data.totalCount;
+      })
     },
     createBuilding() {
       if (!this.validate(true)) return
@@ -233,7 +297,9 @@ export default {
       this.api({
         url: "/building/deleteBuilding",
         method: "post",
-        data: this.tempBuilding
+        params: {
+          "id" : this.tempBuilding.id
+        }
       }).then(() => {
         this.$message.success('删除成功！')
         this.getList();

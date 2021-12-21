@@ -41,7 +41,7 @@ public class Owner implements Serializable {
     /**
      * 身份证号
      */
-    private String idcard;
+    private String idCard;
 
     /**
      * 出生日期
@@ -99,6 +99,4 @@ public class Owner implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

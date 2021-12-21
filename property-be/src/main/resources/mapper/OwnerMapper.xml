@@ -6,17 +6,16 @@
         SELECT o.id                                       id,
                o.house_id                                 houseId,
                o.name                                     name,
-               o.idcard                                   idcard,
-               o.birthday                                 birthday,
+               o.id_card                                  idCard,
+               date_format(o.birthday, '%Y-%m-%d')        birthday,
                o.profession                               profession,
                o.sex                                      sex,
                o.type                                     type,
                o.picture                                  picture,
                o.telephone                                telephone,
                o.remark                                   remark,
-               o.version                                  version,
-               date_format(b.gmt_create, '%Y-%m-%d %T')   gmtCreate,
-               date_format(b.gmt_modified, '%Y-%m-%d %T') gmtModified
+               date_format(o.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(o.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_owner o
         ORDER BY o.id ASC LIMIT #{offSet}, #{pageRow}
     </select>

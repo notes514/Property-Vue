@@ -18,6 +18,17 @@ public interface BuildingMapper extends BaseMapper<Building> {
 
     /**
      * 楼栋列表
+     *
+     * @param jsonObject json参数
+     * @return List<JSONObject>
      */
     List<JSONObject> listBuilding(JSONObject jsonObject);
+
+    /**
+     * 楼栋和类型搜索
+     *
+     * @param jsonObject json参数
+     * @return List<JSONObject>
+     */
+    List<JSONObject> likeBuildingNameAndType(JSONObject jsonObject);
 }

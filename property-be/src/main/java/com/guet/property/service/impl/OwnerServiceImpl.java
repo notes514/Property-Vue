@@ -36,7 +36,7 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
     @Override
     public JSONObject addOwner(JSONObject jsonObject) {
         Owner owner = JSON.parseObject(jsonObject.toJSONString(), Owner.class);
-        int exist = count(new QueryWrapper<Owner>().eq("idcard", owner.getIdcard()));
+        int exist = count(new QueryWrapper<Owner>().eq("id_card", owner.getIdCard()));
         if (exist > 0) {
             return CommonUtils.filedJson("该业主已存在！");
         }
@@ -54,7 +54,7 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
         Owner ownerUpdate = ownerMapper.selectById(owner.getId());
         ownerUpdate.setHouseId(owner.getHouseId());
         ownerUpdate.setName(owner.getName());
-        ownerUpdate.setIdcard(owner.getIdcard());
+        ownerUpdate.setIdCard(owner.getIdCard());
         ownerUpdate.setBirthday(owner.getBirthday());
         ownerUpdate.setProfession(owner.getProfession());
         ownerUpdate.setSex(owner.getSex());

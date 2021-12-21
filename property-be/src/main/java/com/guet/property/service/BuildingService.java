@@ -22,6 +22,14 @@ public interface BuildingService extends IService<Building> {
     JSONObject listBuilding(JSONObject jsonObject);
 
     /**
+     * 模糊搜索
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject likeBuildingNameAndType(JSONObject jsonObject);
+
+    /**
      * 新增文章
      *
      * @param jsonObject json参数
