@@ -1,10 +1,25 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-form>
+      <el-form :inline="true" class="demo-form-inline">
+        <el-form-item label="业主姓名">
+          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="ownerNameText" clearable
+                    style="width: 250px">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="业主类型">
+          <el-select v-model="typeSelect" placeholder="请选择楼型">
+            <el-option label="全部" value="-1"></el-option>
+            <el-option label="房东" value="0"></el-option>
+            <el-option label="租客" value="1"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="plus" @click="showCreate" v-permission="'role:add'">添加
-          </el-button>
+          <el-button type="primary" icon="el-icon-search" @click="queryOwnerNameAndTypeList">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showCreate" v-permission="'role:add'"
+                     plain>添加业主</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -14,21 +29,21 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="name" label="业主姓名" width="120"></el-table-column>
+      <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
+      <el-table-column align="center" prop="sex" label="性别" :formatter="sexFormat" width="80"/>
       <el-table-column align="center" prop="idCard" label="身份证号" width="200"/>
-      <el-table-column align="center" prop="sex" label="性别" width="80"/>
-      <el-table-column align="center" prop="type" label="类型" width="100"/>
-      <el-table-column align="center" prop="profession" label="职业" width="120"/>
+      <el-table-column align="center" prop="type" label="业主类型" :formatter="ownerTypeFormat" width="100"/>
+      <el-table-column align="center" prop="profession" label="职业" :formatter="professionalFormat" width="120"/>
       <el-table-column align="center" prop="birthday" label="出身日期" width="200"/>
       <el-table-column align="center" prop="telephone" label="联系方式" width="200"/>
       <el-table-column align="center" prop="gmtCreate" label="创建时间" width="200"/>
       <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="200"/>
       <el-table-column align="center" label="管理" width="228">
         <template slot-scope="scope">
-          <el-button type="primary" icon="edit" @click="showUpdate(scope.$index)" v-permission="'role:update'">修改
-          </el-button>
-          <el-button type="primary" icon="edit" @click="showRemove(scope.$index)" v-permission="'role:delete'">删除
-          </el-button>
+          <el-button type="primary" size="mini" icon="edit" @click="showUpdate(scope.$index)"
+                     v-permission="'role:update'">修改</el-button>
+          <el-button type="danger" size="mini" icon="edit" @click="showRemove(scope.$index)"
+                     v-permission="'role:delete'">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -39,7 +54,8 @@
       :page-size="listQuery.pageRow"
       :total="totalCount"
       :page-sizes="[10, 20, 30, 50]"
-      layout="total, sizes, prev, pager, next, jumper">
+      layout="total, sizes, prev, pager, next, jumper"
+      style="margin-top: 16px;">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="tempOwner" label-position="left" label-width="80px"
@@ -94,13 +110,13 @@
           </el-input>
         </el-form-item>
         <el-form-item v-show="dialogStatus === 'remove'" required>
-          <span>确定要删除该楼栋吗？</span>
+          <span style="font-size: 16px">确定要删除业主 {{tempOwner.name}} 吗？</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="success" v-if="dialogStatus==='create'" @click="createOwner">创 建</el-button>
-        <el-button type="primary" v-if="dialogStatus==='update'" v-else @click="updateOwner">修 改</el-button>
+        <el-button type="primary" v-if="dialogStatus==='update'" @click="updateOwner">修 改</el-button>
         <el-button type="primary" v-if="dialogStatus==='remove'" @click="removeOwner">确 定</el-button>
       </div>
     </el-dialog>
@@ -114,12 +130,21 @@ export default {
   name: "owner",
   data() {
     return {
-      totalCount: 0, //分页组件--数据总条数
-      list: [],//表格的数据
-      listLoading: false,//数据加载等待动画
+      // 搜索内容数据
+      ownerNameText: '',
+      // 类型选择
+      typeSelect: '',
+      //分页组件--数据总条数
+      totalCount: 0,
+      //表格的数据
+      list: [],
+      //数据加载等待动画
+      listLoading: false,
       listQuery: {
-        pageNum: 1,//页码
-        pageRow: 10,//每页条数
+        //页码
+        pageNum: 1,
+        //每页条数
+        pageRow: 10,
         name: ''
       },
       dialogStatus: 'create',
@@ -225,8 +250,8 @@ export default {
     showCreate() {
       // 显示新增对话框
       this.tempOwner.name = "";
-      this.tempOwner.idCard = "";
       this.tempOwner.sex = "";
+      this.tempOwner.idCard = "";
       this.tempOwner.type = "";
       this.tempOwner.profession = "";
       this.tempOwner.birthday = "";
@@ -240,24 +265,37 @@ export default {
       let owner = this.list[$index];
       this.tempOwner.id = owner.id;
       this.tempOwner.name = owner.name;
+      this.tempOwner.sex = owner.sex;
       this.tempOwner.idCard = owner.idCard;
       this.tempOwner.type = owner.type;
-      this.tempOwner.birthday = this.showDate(owner.birthday);
+      this.tempOwner.profession = owner.profession;
+
+      console.log("this.tempOwner.birthday = owner.birthday;")
+      console.log(owner.birthday)
+
+      this.tempOwner.birthday = owner.birthday;
       this.tempOwner.telephone = owner.telephone;
-      this.tempOwner.picture = owner.picture;
-      this.tempOwner.remark = owner.remark;
       this.dialogStatus = "update"
       this.dialogFormVisible = true
     },
     showRemove($index) {
       let owner = this.list[$index];
       this.tempOwner.id = owner.id;
+      this.tempOwner.name = owner.name;
       this.dialogStatus = "remove"
       this.dialogFormVisible = true
     },
-    showDate(birthday) {
-      const date = new Date(birthday);
-      return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDay();
+    sexFormat(owner) {
+      return owner.sex === '0' ? '男' : '女';
+    },
+    ownerTypeFormat(owner) {
+      return owner.type === '0' ? '房主' : '租客';
+    },
+    professionalFormat(owner) {
+      const index = owner.profession;
+      console.log("index：")
+      console.log(index)
+      return this.professionList[index].professionLabel;
     },
     validate(isCreate) {
       let owner = this.tempOwner
@@ -281,11 +319,7 @@ export default {
         this.$message.warning('请选择住户类型')
         return false
       }
-      console.log("------------------birthday---------------------")
-      console.log(owner.birthday)
-      console.log("------------------this.showDate(owner.birthday)---------------------")
-      console.log(this.showDate(owner.birthday))
-      if (this.showDate(owner.birthday).trim().length === 0) {
+      if (owner.birthday.trim().length === 0) {
         this.$message.warning('请选择业主出生日期')
         return false
       }
@@ -299,6 +333,34 @@ export default {
       }
 
       return true
+    },
+    queryValidate(isCreate) {
+      if (isCreate && this.ownerNameText.trim().length === 0 && this.typeSelect.trim().length === 0) {
+        this.$message.warning('请输入或选择您的查询条件！')
+        return false
+      }
+      return true
+    },
+    /**
+     * 根据楼栋名称和类型进行模糊搜索
+     */
+    queryOwnerNameAndTypeList() {
+      if (!this.queryValidate(true)) return
+      this.listLoading = true;
+      this.api({
+        url: "/owner/likeOwner",
+        method: "get",
+        params: {
+          "pageNum" : this.listQuery.pageNum,
+          "pageRow" : this.listQuery.pageRow,
+          "name" : this.ownerNameText.trim(),
+          "type" : this.typeSelect === '-1' ? '' : this.typeSelect.trim(),
+        }
+      }).then(data => {
+        this.listLoading = false;
+        this.list = data.list;
+        this.totalCount = data.totalCount;
+      })
     },
     createOwner() {
       if (!this.validate(true)) return
@@ -331,7 +393,9 @@ export default {
       this.api({
         url: "/owner/deleteOwner",
         method: "post",
-        data: this.tempOwner
+        params: {
+          "id" : this.tempOwner.id
+        }
       }).then(() => {
         this.$message.success('删除成功！')
         this.getList();

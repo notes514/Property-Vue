@@ -30,6 +30,14 @@ public class OwnerController {
     }
 
     /**
+     * 查询业主列表
+     */
+    @GetMapping("/likeOwner")
+    public JSONObject likeOwner(HttpServletRequest request) {
+        return ownerService.likeOwnerNameAndType(CommonUtils.request2Json(request));
+    }
+
+    /**
      * 添加业主列表
      */
     @PostMapping("/addOwner")
@@ -51,8 +59,7 @@ public class OwnerController {
      * 删除业主列表
      */
     @PostMapping("/deleteOwner")
-    public JSONObject deleteOwner(@RequestBody JSONObject jsonObject) {
-        CommonUtils.hasAllRequired(jsonObject, "id");
-        return ownerService.deleteOwner(jsonObject);
+    public JSONObject deleteOwner(HttpServletRequest request) {
+        return ownerService.deleteOwner(CommonUtils.request2Json(request));
     }
 }

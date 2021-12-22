@@ -22,6 +22,14 @@ public interface OwnerService extends IService<Owner> {
     JSONObject listOwner(JSONObject jsonObject);
 
     /**
+     * 根据业主名称和类型进行模糊搜索
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject likeOwnerNameAndType(JSONObject jsonObject);
+
+    /**
      * 新增业主
      *
      * @param jsonObject json参数

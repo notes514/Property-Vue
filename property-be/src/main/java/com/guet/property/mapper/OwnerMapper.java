@@ -23,4 +23,12 @@ public interface OwnerMapper extends BaseMapper<Owner> {
      * @return List<JSONObject>
      */
     List<JSONObject> listOwner(JSONObject jsonObject);
+
+    /**
+     * 楼栋和类型搜索
+     *
+     * @param jsonObject json参数
+     * @return List<JSONObject>
+     */
+    List<JSONObject> likeOwnerNameAndType(JSONObject jsonObject);
 }

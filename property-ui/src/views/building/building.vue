@@ -38,11 +38,9 @@
       <el-table-column align="center" label="管理" width="200">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="edit" @click="showUpdate(scope.$index)"
-                     v-permission="'role:update'">修改
-          </el-button>
+                     v-permission="'role:update'">修改</el-button>
           <el-button type="danger" size="mini" icon="edit" @click="showRemove(scope.$index)"
-                     v-permission="'role:delete'">删除
-          </el-button>
+                     v-permission="'role:delete'">删除</el-button>
         </template>
       </el-table-column>
     </el-table>

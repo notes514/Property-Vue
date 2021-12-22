@@ -34,6 +34,19 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
     }
 
     @Override
+    public JSONObject likeOwnerNameAndType(JSONObject jsonObject) {
+        CommonUtils.fillPageParam(jsonObject);
+
+        QueryWrapper<Owner> wrapper = new QueryWrapper<>();
+        wrapper.like("name", jsonObject.getString("name"))
+                .eq("type", jsonObject.getString("type"));
+
+        Integer count = ownerMapper.selectCount(wrapper);
+        List<JSONObject> list = ownerMapper.likeOwnerNameAndType(jsonObject);
+        return CommonUtils.successPage(jsonObject, list, count);
+    }
+
+    @Override
     public JSONObject addOwner(JSONObject jsonObject) {
         Owner owner = JSON.parseObject(jsonObject.toJSONString(), Owner.class);
         int exist = count(new QueryWrapper<Owner>().eq("id_card", owner.getIdCard()));
@@ -52,6 +65,9 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
     public JSONObject updateOwner(JSONObject jsonObject) {
         Owner owner = JSON.parseObject(jsonObject.toJSONString(), Owner.class);
         Owner ownerUpdate = ownerMapper.selectById(owner.getId());
+
+        System.out.println(" owner.getBirthday() --- " + owner.getBirthday());
+
         ownerUpdate.setHouseId(owner.getHouseId());
         ownerUpdate.setName(owner.getName());
         ownerUpdate.setIdCard(owner.getIdCard());
