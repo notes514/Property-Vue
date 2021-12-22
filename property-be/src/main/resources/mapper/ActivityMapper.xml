@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guet.property.mapper.ActivityMapper">
 
+    <select id="listActivity" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT a.id                                       id,
+               a.title                                    title,
+               a.address                                  address,
+               a.organizer                                organizer,
+               a.status                                   status,
+               date_format(a.start_time, '%Y-%m-%d %T')   startTime,
+               date_format(a.end_time, '%Y-%m-%d %T')     endTime,
+               date_format(a.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(a.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_activity a
+        WHERE a.deleted = '0'
+        ORDER BY a.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="likeActivityTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT a.id                                       id,
+               a.title                                    title,
+               a.address                                  address,
+               a.organizer                                organizer,
+               a.status                                   status,
+               date_format(a.start_time, '%Y-%m-%d %T')   startTime,
+               date_format(a.end_time, '%Y-%m-%d %T')     endTime,
+               date_format(a.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(a.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_activity a
+        <where>
+            <if test="title != null and title != ''">
+                a.title LIKE concat('%', #{title}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND a.status = #{status}
+            </if>
+            AND a.deleted = '0'
+        </where>
+        ORDER BY a.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
 </mapper>

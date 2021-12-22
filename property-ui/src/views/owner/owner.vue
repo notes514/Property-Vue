@@ -269,10 +269,6 @@ export default {
       this.tempOwner.idCard = owner.idCard;
       this.tempOwner.type = owner.type;
       this.tempOwner.profession = owner.profession;
-
-      console.log("this.tempOwner.birthday = owner.birthday;")
-      console.log(owner.birthday)
-
       this.tempOwner.birthday = owner.birthday;
       this.tempOwner.telephone = owner.telephone;
       this.dialogStatus = "update"
@@ -293,8 +289,6 @@ export default {
     },
     professionalFormat(owner) {
       const index = owner.profession;
-      console.log("index：")
-      console.log(index)
       return this.professionList[index].professionLabel;
     },
     validate(isCreate) {
@@ -319,7 +313,7 @@ export default {
         this.$message.warning('请选择住户类型')
         return false
       }
-      if (owner.birthday.trim().length === 0) {
+      if (owner.birthday === null || owner.birthday === '') {
         this.$message.warning('请选择业主出生日期')
         return false
       }
@@ -364,7 +358,7 @@ export default {
     },
     createOwner() {
       if (!this.validate(true)) return
-      // 保存新楼栋
+      // 保存新业主
       this.api({
         url: "/owner/addOwner",
         method: "post",
@@ -377,7 +371,7 @@ export default {
     },
     updateOwner() {
       if (!this.validate(false)) return
-      // 修改楼栋
+      // 修改业主
       this.api({
         url: "/owner/updateOwner",
         method: "post",
@@ -389,7 +383,7 @@ export default {
       });
     },
     removeOwner() {
-      // 删除楼栋
+      // 删除业主
       this.api({
         url: "/owner/deleteOwner",
         method: "post",

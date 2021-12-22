@@ -40,7 +40,7 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/system/owner',
     name: '功能模块',
-    meta: {title: '功能模块', icon: 'tree'},
+    meta: {title: '业主管理', icon: 'tree'},
     children: [
       {
         path: 'owner',
@@ -48,6 +48,22 @@ export const constantRouterMap = [
         component: _import('owner/owner'),
         meta: {title: '业主信息', icon: 'example'},
         menu: 'owner'
+      },
+    ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/owner',
+    name: '功能模块',
+    meta: {title: '活动管理', icon: 'tree'},
+    children: [
+      {
+        path: 'activity',
+        name: '活动',
+        component: _import('activity/activity'),
+        meta: {title: '活动信息', icon: 'example'},
+        menu: 'activity'
       },
     ]
   },

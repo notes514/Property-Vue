@@ -56,7 +56,7 @@ public class OwnerController {
     }
 
     /**
-     * 删除业主列表
+     * 删除业主
      */
     @PostMapping("/deleteOwner")
     public JSONObject deleteOwner(HttpServletRequest request) {

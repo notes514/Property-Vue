@@ -56,7 +56,7 @@ public class BuildingController {
     }
 
     /**
-     * 删除楼栋列表
+     * 删除楼栋
      */
     @PostMapping("/deleteBuilding")
     public JSONObject deleteBuilding(HttpServletRequest request) {
