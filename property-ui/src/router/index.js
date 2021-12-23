@@ -54,7 +54,7 @@ export const constantRouterMap = [
   {
     path: '/system',
     component: Layout,
-    redirect: '/system/owner',
+    redirect: '/system/activity',
     name: '功能模块',
     meta: {title: '活动管理', icon: 'tree'},
     children: [
@@ -64,6 +64,22 @@ export const constantRouterMap = [
         component: _import('activity/activity'),
         meta: {title: '活动信息', icon: 'example'},
         menu: 'activity'
+      },
+    ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/notice',
+    name: '功能模块',
+    meta: {title: '公告管理', icon: 'tree'},
+    children: [
+      {
+        path: 'notice',
+        name: '公告',
+        component: _import('notice/notice'),
+        meta: {title: '公告信息', icon: 'example'},
+        menu: 'notice'
       },
     ]
   },

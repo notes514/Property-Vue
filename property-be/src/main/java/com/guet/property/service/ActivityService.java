@@ -21,7 +21,7 @@ public interface ActivityService extends IService<Activity> {
     JSONObject listActivity(JSONObject jsonObject);
 
     /**
-     * 根据活动内容和活动地点进行模糊搜索
+     * 根据活动内容和活动状态进行模糊搜索
      *
      * @param jsonObject json参数
      * @return JSONObject

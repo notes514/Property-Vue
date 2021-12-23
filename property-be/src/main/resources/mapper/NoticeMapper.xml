@@ -2,4 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guet.property.mapper.NoticeMapper">
 
+    <select id="listNotice" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT n.id                                       id,
+               n.title                                    title,
+               n.content                                  content,
+               n.status                                   status,
+               date_format(n.release_time, '%Y-%m-%d %T') releaseTime,
+               date_format(n.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(n.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_notice n
+        WHERE n.deleted = '0'
+        ORDER BY n.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="likeNoticeTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT n.id                                       id,
+               n.title                                    title,
+               n.content                                  content,
+               n.status                                   status,
+               date_format(n.release_time, '%Y-%m-%d %T') releaseTime,
+               date_format(n.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(n.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_notice n
+        <where>
+            <if test="title != null and title != ''">
+                n.title LIKE concat('%', #{title}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND n.status = #{status}
+            </if>
+            AND n.deleted = '0'
+        </where>
+        ORDER BY n.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
 </mapper>

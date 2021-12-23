@@ -45,14 +45,14 @@
       </el-table-column>
     </el-table>
     <el-pagination
+      background
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="listQuery.pageNum"
       :page-size="listQuery.pageRow"
       :total="totalCount"
       :page-sizes="[10, 20, 30, 50]"
-      layout="total, sizes, prev, pager, next, jumper"
-      style="margin-top: 16px;">
+      layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="tempBuilding" label-position="left" label-width="80px"
@@ -310,4 +310,8 @@ export default {
 
 <style scoped>
 
+.el-pagination {
+  float: right;
+  margin-top: 16px;
+}
 </style>

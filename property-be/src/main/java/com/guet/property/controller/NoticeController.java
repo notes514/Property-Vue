@@ -1,7 +1,12 @@
 package com.guet.property.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSONObject;
+import com.guet.property.service.NoticeService;
+import com.guet.property.util.CommonUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 公告表 前端控制器
@@ -13,4 +18,48 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/notice")
 public class NoticeController {
 
+    @Autowired
+    private NoticeService noticeService;
+    
+    /**
+     * 查询活动列表
+     */
+    @GetMapping("/listNotice")
+    public JSONObject listNotice(HttpServletRequest request) {
+        return noticeService.listNotice(CommonUtils.request2Json(request));
+    }
+
+    /**
+     * 根据活动内容和活动地点进行模糊搜索
+     */
+    @GetMapping("/likeNotice")
+    public JSONObject likeNoticeTitleStatus(HttpServletRequest request) {
+        return noticeService.likeNoticeTitleAndStatus(CommonUtils.request2Json(request));
+    }
+
+    /**
+     * 添加活动列表
+     */
+    @PostMapping("/addNotice")
+    public JSONObject addNotice(@RequestBody JSONObject jsonObject) {
+        CommonUtils.hasAllRequired(jsonObject, "");
+        return noticeService.addNotice(jsonObject);
+    }
+
+    /**
+     * 更新活动列表
+     */
+    @PostMapping("/updateNotice")
+    public JSONObject updateNotice(@RequestBody JSONObject jsonObject) {
+        CommonUtils.hasAllRequired(jsonObject, "");
+        return noticeService.updateNotice(jsonObject);
+    }
+
+    /**
+     * 删除活动
+     */
+    @PostMapping("/deleteNotice")
+    public JSONObject deleteNotice(HttpServletRequest request) {
+        return noticeService.deleteNotice(CommonUtils.request2Json(request));
+    }
 }

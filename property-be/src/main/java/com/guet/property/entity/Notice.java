@@ -39,14 +39,14 @@ public class Notice implements Serializable {
     private String content;
 
     /**
-     * 公告开始时间
+     * 公告状态
      */
-    private LocalDateTime startTime;
+    private String status;
 
     /**
-     * 公告截止时间
+     * 公告发布时间
      */
-    private LocalDateTime endTime;
+    private LocalDateTime releaseTime;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -69,6 +69,4 @@ public class Notice implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }
