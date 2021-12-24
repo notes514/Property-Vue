@@ -18,12 +18,15 @@
           <el-button type="primary" icon="el-icon-search" @click="queryBuildingNameAndTypeList">查询</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showCreate" v-permission="'role:add'"
-                     plain>添加楼栋</el-button>
+          <el-button icon="el-icon-refresh" @click="reset" v-permission="'role:add'" plain>重置</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="list" v-loading="listLoading" border fit highlight-current-row>
+    <div style="margin-bottom: 16px">
+      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showCreate" v-permission="'role:add'">
+        添加</el-button>
+    </div>
+    <el-table :data="list" v-loading="listLoading" border :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
       <el-table-column align="center" label="序号" width="50">
         <template slot-scope="scope">
           <span v-text="getIndex(scope.$index)"> </span>
@@ -160,6 +163,14 @@ export default {
         this.list = data.list;
         this.totalCount = data.totalCount;
       })
+    },
+    reset() {
+      if (this.buildingNameText.trim().length !== 0 || this.typeSelect.trim().length !== 0) {
+        this.getList()
+      }
+      this.buildingNameText = '';
+      this.typeSelect = '';
+
     },
     handleSizeChange(val) {
       // 改变每页数量
