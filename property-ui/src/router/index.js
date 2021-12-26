@@ -98,6 +98,21 @@ export const constantRouterMap = [
         menu: 'complaint'
       },
     ]
+  },{
+    path: '/system',
+    component: Layout,
+    redirect: '/system/repair',
+    name: '功能模块',
+    meta: {title: '报修管理', icon: 'tree'},
+    children: [
+      {
+        path: 'repair',
+        name: '报修',
+        component: _import('repair/repair'),
+        meta: {title: '报修信息', icon: 'example'},
+        menu: 'repair'
+      },
+    ]
   },
 ]
 export default new Router({

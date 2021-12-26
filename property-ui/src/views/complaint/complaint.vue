@@ -3,11 +3,11 @@
     <div class="filter-container">
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="投诉内容">
-          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="complainReasonText" clearable
+          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="complaintTypeText" clearable
                     style="width: 250px">
           </el-input>
         </el-form-item>
-        <el-form-item label="投诉状态">
+        <el-form-item label="处理状态">
           <el-select v-model="statusSelect" placeholder="请选择楼型">
             <el-option label="全部" value="-1"></el-option>
             <el-option label="未受理" value="0"></el-option>
@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="getReasonAndStatusList" plain>查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="getcomplaintTypeAndStatusList" plain>查询</el-button>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-refresh" @click="reset" v-permission="'role:add'" plain>重置</el-button>
@@ -28,13 +28,14 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="ownerName" label="业主姓名" width="150" ></el-table-column>
-      <el-table-column align="center" prop="reason" label="投诉事由" width="280" ></el-table-column>
-      <el-table-column align="center" prop="description" label="投诉描述" width="350"/>
-      <el-table-column align="center" prop="status" label="投诉状态" :formatter="statusFormat" width="100" />
-      <el-table-column align="center" prop="complaintTime" label="投诉时间" width="180" />
-      <el-table-column align="center" prop="gmtCreate" label="创建时间" width="180" />
-      <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="180" />
+      <el-table-column align="center" prop="complaintType" label="投诉类型" width="250" ></el-table-column>
+      <el-table-column align="center" prop="complaintContent" label="投诉内容" width="300"/>
+      <el-table-column align="center" prop="ownerName" label="投诉人员" width="150" ></el-table-column>
+      <el-table-column align="center" prop="status" label="处理状态" :formatter="statusFormat" width="120" />
+      <el-table-column align="center" prop="complaintTime" label="投诉时间" width="160" />
+      <el-table-column align="center" prop="handler" label="处理人" width="120" />
+      <el-table-column align="center" prop="gmtCreate" label="创建时间" width="160" />
+      <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="160" />
       <el-table-column align="center" label="管理" width="228">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="edit" @click="showUpdate(scope.$index)"
@@ -54,25 +55,25 @@
       :page-sizes="[10, 20, 30, 50]"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-    <el-dialog :reason="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :complaintType="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form class="small-space" :model="tempComplaint" label-position="left" label-width="80px"
                style='width: 100%; margin-left: 48px'>
-        <el-form-item label="业主姓名" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="text" :disabled="true" v-model="tempComplaint.ownerName" style="width: 50%;">
-          </el-input>
-        </el-form-item>
-        <el-form-item label="投诉事由" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="text" :disabled="true" v-model="tempComplaint.reason" style="width: 50%;">
+        <el-form-item label="投诉类型" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempComplaint.complaintType" style="width: 50%;">
           </el-input>
         </el-form-item>
         <el-form-item label="投诉内容" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="textarea" :disabled="true" :rows="4" v-model="tempComplaint.description" style="width: 50%;">
+          <el-input type="textarea" :disabled="true" :rows="4" v-model="tempComplaint.complaintContent" style="width: 50%;">
           </el-input>
         </el-form-item>
-        <el-form-item label="投诉状态" v-show="dialogStatus !== 'remove'" required>
+        <el-form-item label="投诉人员" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempComplaint.ownerName" style="width: 50%;">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="处理状态" v-show="dialogStatus !== 'remove'" required>
           <template>
             <el-radio-group v-model="tempComplaint.status">
-              <el-radio :label="'0'">未受理</el-radio>
+              <el-radio :label="'0'">待受理</el-radio>
               <el-radio :label="'1'">已受理</el-radio>
             </el-radio-group>
           </template>
@@ -101,8 +102,8 @@ export default {
   name: "Complaint",
   data() {
     return {
-      // 搜索内容数据
-      complainReasonText: '',
+      // 搜索投书类型
+      complaintTypeText: '',
       // 类型选择
       statusSelect: '',
       //分页组件--数据总条数
@@ -128,9 +129,10 @@ export default {
       tempComplaint: {
         id: '',
         ownerName: '',
-        reason: '',
-        description: '',
+        complaintType: '',
+        complaintContent: '',
         status: '',
+        handler: '',
         complaintTime: ''
       }
     }
@@ -153,10 +155,10 @@ export default {
       })
     },
     reset() {
-      if (this.complainReasonText.trim().length !== 0 || this.statusSelect.trim().length !== 0) {
+      if (this.complaintTypeText.trim().length !== 0 || this.statusSelect.trim().length !== 0) {
         this.getList()
       }
-      this.complainReasonText = '';
+      this.complaintTypeText = '';
       this.statusSelect = '';
 
     },
@@ -183,9 +185,10 @@ export default {
       let complaint = this.list[$index];
       this.tempComplaint.id = complaint.id;
       this.tempComplaint.ownerName = complaint.ownerName;
-      this.tempComplaint.reason = complaint.reason;
-      this.tempComplaint.description = complaint.description;
+      this.tempComplaint.complaintType = complaint.complaintType;
+      this.tempComplaint.complaintContent = complaint.complaintContent;
       this.tempComplaint.status = complaint.status;
+      this.tempComplaint.handler = complaint.handler;
       this.tempComplaint.complaintTime = complaint.complaintTime;
       this.dialogStatus = "update"
       this.dialogFormVisible = true
@@ -201,23 +204,23 @@ export default {
     },
     validate() {
       if (this.tempComplaint.status.trim().length === 0) {
-        this.$message.warning('请选择投诉状态')
+        this.$message.warning('请选择处理状态')
         return false
       }
 
       return true
     },
     queryValidate(isCreate) {
-      if (isCreate && this.complainReasonText.trim().length === 0 && this.statusSelect.trim().length === 0) {
+      if (isCreate && this.complaintTypeText.trim().length === 0 && this.statusSelect.trim().length === 0) {
         this.$message.warning('请输入或选择您的查询条件！')
         return false
       }
       return true
     },
     /**
-     * 根据投诉事由和受理状态进行模糊搜索
+     * 根据投诉类型和受理状态进行模糊搜索
      */
-    getReasonAndStatusList() {
+    getcomplaintTypeAndStatusList() {
       if (!this.queryValidate(true)) return
       this.listLoading = true;
       this.api({
@@ -226,7 +229,7 @@ export default {
         params: {
           "pageNum" : this.listQuery.pageNum,
           "pageRow" : this.listQuery.pageRow,
-          "reason" : this.complainReasonText.trim(),
+          "complaintType" : this.complaintTypeText.trim(),
           "status" : this.statusSelect === '-1' ? '' : this.statusSelect.trim(),
         }
       }).then(data => {

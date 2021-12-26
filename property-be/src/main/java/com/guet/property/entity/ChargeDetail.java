@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -30,44 +30,39 @@ public class ChargeDetail implements Serializable {
     private Integer id;
 
     /**
-     * 所属楼栋ID
+     * 业主ID
      */
-    private Integer buildingId;
+    private Integer ownerId;
 
     /**
-     * 所属楼栋名称
+     * 缴费人员（业主）姓名
      */
-    private String buildingName;
+    private String ownerName;
 
     /**
      * 收费项目ID
      */
-    private Integer chargeItemId;
+    private Integer chargeId;
 
     /**
      * 收费项目名称
      */
-    private String chargeItemName;
-
-    /**
-     * 承办人名称
-     */
-    private String contractor;
-
-    /**
-     * 承办人联系电话
-     */
-    private String telephone;
+    private String chargeName;
 
     /**
      * 应收金额(￥)，单位分
      */
-    private BigDecimal payMoney;
+    private BigDecimal chargeStandard;
 
     /**
      * 实收金额(￥)，单位分
      */
-    private BigDecimal actualMoney;
+    private BigDecimal payReal;
+
+    /**
+     * 欠费金额(￥)，单位分
+     */
+    private BigDecimal payBalance;
 
     /**
      * 缴费时间
@@ -75,9 +70,9 @@ public class ChargeDetail implements Serializable {
     private LocalDateTime payTime;
 
     /**
-     * 状态：0-生效中（默认），1-已过期
+     * 缴费状态：0-未缴费（默认），1-已缴费
      */
-    private String status;
+    private String payStatus;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -100,6 +95,4 @@ public class ChargeDetail implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

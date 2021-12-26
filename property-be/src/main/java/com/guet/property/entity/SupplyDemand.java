@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,11 +34,6 @@ public class SupplyDemand implements Serializable {
     private Integer ownerId;
 
     /**
-     * 供求人员（业主）名称
-     */
-    private String ownerName;
-
-    /**
      * 供求标题
      */
     private String title;
@@ -54,16 +49,6 @@ public class SupplyDemand implements Serializable {
     private String status;
 
     /**
-     * 供求开始时间
-     */
-    private LocalDateTime startTime;
-
-    /**
-     * 供求截止时间
-     */
-    private LocalDateTime endTime;
-
-    /**
      * 逻辑删除:0-未删除（默认），1-已删除
      */
     @TableLogic
@@ -76,6 +61,16 @@ public class SupplyDemand implements Serializable {
     private Integer version;
 
     /**
+     * 供求开始时间
+     */
+    private LocalDateTime startTime;
+
+    /**
+     * 供求截止时间
+     */
+    private LocalDateTime endTime;
+
+    /**
      * 创建时间
      */
     private LocalDateTime gmtCreate;
@@ -84,6 +79,4 @@ public class SupplyDemand implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

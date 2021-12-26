@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,16 +30,6 @@ public class House implements Serializable {
     private Integer id;
 
     /**
-     * 房屋编码
-     */
-    private String code;
-
-    /**
-     * 房屋名称
-     */
-    private String name;
-
-    /**
      * 所属楼栋ID
      */
     private Integer buildingId;
@@ -49,29 +40,44 @@ public class House implements Serializable {
     private String buildingName;
 
     /**
-     * 户主（业主）ID
+     * 所属单元ID
+     */
+    private Integer unitId;
+
+    /**
+     * 所属单元名称
+     */
+    private String unitName;
+
+    /**
+     * 房产编码
+     */
+    private String code;
+
+    /**
+     * 房产名称
+     */
+    private String name;
+
+    /**
+     * 所属（业主）ID
      */
     private Integer ownerId;
 
     /**
-     * 户主（业主）名称
+     * 所属户主（业主）名称
      */
     private String ownerName;
 
     /**
      * 面积
      */
-    private Integer area;
+    private BigDecimal area;
 
     /**
      * 房间数
      */
     private Integer roomNum;
-
-    /**
-     * 单元
-     */
-    private Integer unit;
 
     /**
      * 楼层
@@ -84,14 +90,19 @@ public class House implements Serializable {
     private Integer telephone;
 
     /**
-     * 描述
+     * 房屋状态：0-未销售（默认），1-已入住
      */
-    private String description;
+    private String status;
 
     /**
-     * 入住时间
+     * 房屋状态：0-未销售（默认），1-已入住
      */
-    private LocalDateTime liveTime;
+    private String refinedDecoration;
+
+    /**
+     * 房屋描述
+     */
+    private String description;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -106,6 +117,11 @@ public class House implements Serializable {
     private Integer version;
 
     /**
+     * 入住时间
+     */
+    private LocalDateTime liveTime;
+
+    /**
      * 创建时间
      */
     private LocalDateTime gmtCreate;
@@ -114,6 +130,4 @@ public class House implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

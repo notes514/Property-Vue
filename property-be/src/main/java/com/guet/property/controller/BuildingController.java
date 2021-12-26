@@ -42,7 +42,7 @@ public class BuildingController {
      */
     @PostMapping("/addBuilding")
     public JSONObject addBuilding(@RequestBody JSONObject jsonObject) {
-        CommonUtils.hasAllRequired(jsonObject, "buildingName,totalHouseholds,type,description");
+        CommonUtils.hasAllRequired(jsonObject, "");
         return buildingService.addBuilding(jsonObject);
     }
 
@@ -51,7 +51,7 @@ public class BuildingController {
      */
     @PostMapping("/updateBuilding")
     public JSONObject updateBuilding(@RequestBody JSONObject jsonObject) {
-        CommonUtils.hasAllRequired(jsonObject, "id,buildingName,totalHouseholds,type,description");
+        CommonUtils.hasAllRequired(jsonObject, "");
         return buildingService.updateBuilding(jsonObject);
     }
 

@@ -6,9 +6,10 @@
         SELECT c.id                                         id,
                c.owner_id                                   ownerId,
                c.owner_name                                 ownerName,
-               c.reason                                     reason,
-               c.description                                description,
+               c.complaint_type                             complaintType,
+               c.complaint_content                          complaintContent,
                c.status                                     status,
+               c.handler                                    handler,
                date_format(c.complaint_Time, '%Y-%m-%d %T') complaintTime,
                date_format(c.gmt_create, '%Y-%m-%d %T')     gmtCreate,
                date_format(c.gmt_modified, '%Y-%m-%d %T')   gmtModified
@@ -21,16 +22,17 @@
         SELECT c.id                                         id,
                c.owner_id                                   ownerId,
                c.owner_name                                 ownerName,
-               c.reason                                     reason,
-               c.description                                description,
+               c.complaint_type                             complaintType,
+               c.complaint_content                          complaintContent,
                c.status                                     status,
+               c.handler                                    handler,
                date_format(c.complaint_Time, '%Y-%m-%d %T') complaintTime,
                date_format(c.gmt_create, '%Y-%m-%d %T')     gmtCreate,
                date_format(c.gmt_modified, '%Y-%m-%d %T')   gmtModified
         FROM tb_complaint c
         <where>
-            <if test="reason != null and reason != ''">
-                c.reason LIKE concat('%', #{reason}, '%')
+            <if test="complaintType != null and complaintType != ''">
+                c.complaint_type LIKE concat('%', #{complaintType}, '%')
             </if>
             <if test="status != null and status != ''">
                 c.status = #{status}

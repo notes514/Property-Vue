@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -39,12 +39,12 @@ public class Notice implements Serializable {
     private String content;
 
     /**
-     * 公告状态
+     * 发布状态:0-关闭，1-开启
      */
     private String status;
 
     /**
-     * 公告发布时间
+     * 发布时间
      */
     private LocalDateTime releaseTime;
 

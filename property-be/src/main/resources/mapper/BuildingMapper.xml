@@ -4,9 +4,10 @@
 
     <select id="listBuilding" resultType="com.alibaba.fastjson.JSONObject">
         SELECT b.id                                       id,
-               b.building_name                            buildingName,
-               b.total_households                         totalHouseholds,
-               b.type                                     buildingType,
+               b.name                                     name,
+               b.layer                                    layer,
+               b.area                                     area,
+               b.type                                     type,
                b.description                              description,
                b.version                                  version,
                date_format(b.gmt_create, '%Y-%m-%d %T')   gmtCreate,
@@ -18,17 +19,18 @@
 
     <select id="likeBuildingNameAndType" resultType="com.alibaba.fastjson.JSONObject">
         SELECT b.id                                       id,
-               b.building_name                            buildingName,
-               b.total_households                         totalHouseholds,
-               b.type                                     buildingType,
+               b.name                                     name,
+               b.layer                                    layer,
+               b.area                                     area,
+               b.type                                     type,
                b.description                              description,
                b.version                                  version,
                date_format(b.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(b.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_building b
         <where>
-            <if test="buildingName != null and buildingName != ''">
-                b.building_name LIKE concat('%', #{buildingName}, '%')
+            <if test="name != null and name != ''">
+                b.name LIKE concat('%', #{name}, '%')
             </if>
             <if test="type != null and type != ''">
                 AND b.type = #{type}

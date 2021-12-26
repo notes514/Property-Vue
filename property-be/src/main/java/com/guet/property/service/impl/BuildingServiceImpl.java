@@ -37,7 +37,7 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
     @Override
     public JSONObject likeBuildingNameAndType(JSONObject jsonObject) {
         QueryWrapper<Building> wrapper = new QueryWrapper<>();
-        wrapper.like("building_name", jsonObject.getString("buildingName"));
+        wrapper.like("name", jsonObject.getString("name"));
         wrapper.eq("type", jsonObject.getString("type"));
         int count = buildingMapper.selectCount(wrapper);
 
@@ -49,8 +49,7 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
     @Override
     public JSONObject addBuilding(JSONObject jsonObject) {
         Building building = JSON.parseObject(jsonObject.toJSONString(), Building.class);
-        int exist = buildingMapper.selectCount(new QueryWrapper<Building>().eq("building_name",
-                building.getBuildingName()));
+        int exist = buildingMapper.selectCount(new QueryWrapper<Building>().eq("name", building.getName()));
         if (exist > 0) {
             return CommonUtils.filedJson("该楼栋已存在！");
         }
@@ -66,9 +65,10 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
     public JSONObject updateBuilding(JSONObject jsonObject) {
         Building building = JSON.parseObject(jsonObject.toJSONString(), Building.class);
         Building buildingObj = buildingMapper.selectById(building.getId());
+        buildingObj.setName(building.getName());
+        buildingObj.setLayer(building.getLayer());
+        buildingObj.setArea(building.getArea());
         buildingObj.setType(building.getType());
-        buildingObj.setBuildingName(building.getBuildingName());
-        buildingObj.setTotalHouseholds(building.getTotalHouseholds());
         buildingObj.setDescription(building.getDescription());
 
         int update = buildingMapper.updateById(buildingObj);

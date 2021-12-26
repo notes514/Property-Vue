@@ -65,18 +65,15 @@ public class OwnerServiceImpl extends ServiceImpl<OwnerMapper, Owner> implements
     public JSONObject updateOwner(JSONObject jsonObject) {
         Owner owner = JSON.parseObject(jsonObject.toJSONString(), Owner.class);
         Owner ownerUpdate = ownerMapper.selectById(owner.getId());
-
-        System.out.println(" owner.getBirthday() --- " + owner.getBirthday());
-
-        ownerUpdate.setHouseId(owner.getHouseId());
         ownerUpdate.setName(owner.getName());
+        ownerUpdate.setSex(owner.getSex());
         ownerUpdate.setIdCard(owner.getIdCard());
         ownerUpdate.setBirthday(owner.getBirthday());
-        ownerUpdate.setProfession(owner.getProfession());
-        ownerUpdate.setSex(owner.getSex());
-        ownerUpdate.setType(owner.getType());
-        ownerUpdate.setPicture(owner.getPicture());
         ownerUpdate.setTelephone(owner.getTelephone());
+        ownerUpdate.setProfession(owner.getProfession());
+        ownerUpdate.setWorkUnits(owner.getWorkUnits());
+        ownerUpdate.setPicture(owner.getPicture());
+        ownerUpdate.setType(owner.getType());
         ownerUpdate.setRemark(owner.getRemark());
 
         int update = ownerMapper.updateById(ownerUpdate);

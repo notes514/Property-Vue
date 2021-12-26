@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -23,7 +23,7 @@ public class Repair implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 维修ID
+     * 报修ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -49,22 +49,17 @@ public class Repair implements Serializable {
     private String ownerName;
 
     /**
-     * 设备编号ID
+     * 报修类型
      */
-    private Integer deviceId;
+    private String repairType;
 
     /**
-     * 设备名称
+     * 报修内容
      */
-    private String deviceName;
+    private String repairContent;
 
     /**
-     * 报修描述
-     */
-    private String description;
-
-    /**
-     * 状态：0-待受理，1-已受理，2-修理完毕
+     * 处理状态：0-待受理，1-受理中，2-受理完毕
      */
     private String status;
 
@@ -73,6 +68,11 @@ public class Repair implements Serializable {
      */
     @TableLogic
     private String deleted;
+
+    /**
+     * 处理人
+     */
+    private String handler;
 
     /**
      * 乐观锁
@@ -89,6 +89,4 @@ public class Repair implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

@@ -36,7 +36,7 @@ public class ComplaintServiceImpl extends ServiceImpl<ComplaintMapper, Complaint
     @Override
     public JSONObject likeComplaintTitleAndStatus(JSONObject jsonObject) {
         QueryWrapper<Complaint> wrapper = new QueryWrapper<>();
-        wrapper.like("reason", jsonObject.getString("reason"))
+        wrapper.like("complaint_type", jsonObject.getString("complaintType"))
                 .eq("status", jsonObject.getString("status"));
         int count = complaintMapper.selectCount(wrapper);
 

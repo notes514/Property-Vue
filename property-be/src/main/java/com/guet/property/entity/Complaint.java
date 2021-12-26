@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -34,24 +34,24 @@ public class Complaint implements Serializable {
     private Integer ownerId;
 
     /**
-     * 投诉人员（业主）名称
+     * 投诉类型
      */
-    private String ownerName;
+    private String complaintType;
 
     /**
-     * 投诉具体描述
+     * 投诉内容
      */
-    private String description;
+    private String complaintContent;
 
     /**
-     * 投诉事由
-     */
-    private String reason;
-
-    /**
-     * 状态：0-未受理（默认），1-已受理，2-已处理完毕
+     * 处理状态：0-待受理，1-受理中，2-受理完毕
      */
     private String status;
+
+    /**
+     * 处理人
+     */
+    private String handler;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -64,11 +64,6 @@ public class Complaint implements Serializable {
      */
     @Version
     private Integer version;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime complaintTime;
 
     /**
      * 创建时间

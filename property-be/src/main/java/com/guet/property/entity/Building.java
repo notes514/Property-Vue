@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -29,17 +30,22 @@ public class Building implements Serializable {
     private Integer id;
 
     /**
-     * 楼栋名称
+     * 楼栋名
      */
-    private String buildingName;
+    private String name;
 
     /**
-     * 总户数
+     * 层数
      */
-    private Integer totalHouseholds;
+    private Integer layer;
 
     /**
-     * 类型：0-电梯房，1-楼梯房（默认）
+     * 面积
+     */
+    private BigDecimal area;
+
+    /**
+     * 类型：0-楼梯房，1-电梯房（默认）
      */
     private String type;
 
@@ -69,6 +75,4 @@ public class Building implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

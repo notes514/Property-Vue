@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-form :inline="true" class="demo-form-inline">
         <el-form-item label="楼栋名称">
-          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="buildingNameText" clearable
+          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="nameText" clearable
                     style="width: 250px">
           </el-input>
         </el-form-item>
@@ -15,7 +15,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="queryBuildingNameAndTypeList">查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="getNameAndTypeList">查询</el-button>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-refresh" @click="reset" v-permission="'role:add'" plain>重置</el-button>
@@ -32,9 +32,10 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="buildingName" label="楼栋" width="200"></el-table-column>
-      <el-table-column align="center" prop="totalHouseholds" label="总户数" width="160"/>
-      <el-table-column align="center" prop="buildingType" label="类型" :formatter="typeFormat" width="160"/>
+      <el-table-column align="center" prop="name" label="楼栋" width="200"></el-table-column>
+      <el-table-column align="center" prop="layer" label="层数" width="160"/>
+      <el-table-column align="center" prop="area" label="面积" width="160"/>
+      <el-table-column align="center" prop="type" label="类型" :formatter="typeFormat" width="160"/>
       <el-table-column align="center" prop="description" label="描述" style="width: 40px"/>
       <el-table-column align="center" prop="gmtCreate" label="创建时间" width="200"/>
       <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="200"/>
@@ -61,31 +62,35 @@
       <el-form class="small-space" :model="tempBuilding" label-position="left" label-width="80px"
                style='width: 100%; margin-left: 48px'>
         <el-form-item label="楼栋名称" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="text" v-model="tempBuilding.buildingName" style="width: 50%;">
+          <el-input type="text" v-model="tempBuilding.name" style="width: 50%;">
           </el-input>
         </el-form-item>
-        <el-form-item label="总户数" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="text" v-model="tempBuilding.totalHouseholds" style="width: 20%;">
+        <el-form-item label="层数" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" v-model="tempBuilding.layer" style="width: 30%;">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="面积" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" v-model="tempBuilding.area" style="width: 30%;">
           </el-input>
         </el-form-item>
         <el-form-item label="楼栋类型" v-show="dialogStatus !== 'remove'" required>
-          <el-select v-model="tempBuilding.buildingType" placeholder="请选择" style="width: 20%;">
+          <el-select v-model="tempBuilding.type" placeholder="请选择" style="width: 30%;">
             <el-option
               v-for="item in typeList"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+              :key="item.typeValue"
+              :label="item.typeLabel"
+              :value="item.typeValue">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="楼栋描述" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="textarea" placeholder="请输入楼栋描述" v-model="tempBuilding.description" style="width: 50%;"
-                    maxlength="120" show-word-limit>
+          <el-input type="textarea" :rows="4" placeholder="请输入楼栋描述" v-model="tempBuilding.description"
+                    style="width: 50%;" maxlength="120" show-word-limit>
           </el-input>
         </el-form-item>
 
         <el-form-item v-show="dialogStatus === 'remove'" required>
-          <span style="font-size: 16px">确定要删除 {{tempBuilding.buildingName}} 吗？</span>
+          <span style="font-size: 16px">确定要删除 {{tempBuilding.name}} 吗？</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,7 +109,7 @@ export default {
   data() {
     return {
       // 搜索内容数据
-      buildingNameText: '',
+      nameText: '',
       // 类型选择
       typeSelect: '',
       //分页组件--数据总条数
@@ -130,20 +135,21 @@ export default {
       },
       tempBuilding: {
         id: '',
-        buildingName: '',
-        totalHouseholds: '',
-        buildingType: '',
+        name: '',
+        layer: '',
+        area: '',
+        type: '',
         description: '',
         gmtCreate: '',
         gmtModified: ''
       },
       typeList: [
         {
-          value: '0',
-          label: '电梯房'
+          typeValue: '0',
+          typeLabel: '楼梯房'
         }, {
-          value: '1',
-          label: '楼梯房'
+          typeValue: '1',
+          typeLabel: '电梯房'
         }
       ]
     }
@@ -165,10 +171,10 @@ export default {
       })
     },
     reset() {
-      if (this.buildingNameText.trim().length !== 0 || this.typeSelect.trim().length !== 0) {
+      if (this.nameText.trim().length !== 0 || this.typeSelect.trim().length !== 0) {
         this.getList()
       }
-      this.buildingNameText = '';
+      this.nameText = '';
       this.typeSelect = '';
 
     },
@@ -193,9 +199,10 @@ export default {
     },
     showCreate() {
       // 显示新增对话框
-      this.tempBuilding.buildingName = "";
-      this.tempBuilding.totalHouseholds = "";
-      this.tempBuilding.buildingType = "";
+      this.tempBuilding.name = "";
+      this.tempBuilding.layer = "";
+      this.tempBuilding.area = "";
+      this.tempBuilding.type = "";
       this.tempBuilding.description = "";
       this.dialogStatus = "create"
       this.dialogFormVisible = true
@@ -203,9 +210,10 @@ export default {
     showUpdate($index) {
       let building = this.list[$index];
       this.tempBuilding.id = building.id;
-      this.tempBuilding.buildingName = building.buildingName;
-      this.tempBuilding.totalHouseholds = building.totalHouseholds;
-      this.tempBuilding.buildingType = building.buildingType;
+      this.tempBuilding.name = building.name;
+      this.tempBuilding.layer = building.layer;
+      this.tempBuilding.area = building.area;
+      this.tempBuilding.type = building.type;
       this.tempBuilding.description = building.description;
       this.dialogStatus = "update"
       this.dialogFormVisible = true
@@ -213,7 +221,7 @@ export default {
     showRemove($index) {
       let building = this.list[$index];
       this.tempBuilding.id = building.id;
-      this.tempBuilding.buildingName = building.buildingName;
+      this.tempBuilding.name = building.name;
       this.dialogStatus = "remove"
       this.dialogFormVisible = true
     },
@@ -224,20 +232,20 @@ export default {
      * @returns {string} 字符串
      */
     typeFormat(building) {
-      return building.buildingType === '0' ? '电梯房' : '楼梯房';
+      return building.type === '0' ? '楼梯房' : '电梯房';
     },
     validate(isCreate) {
       let building = this.tempBuilding
-      if (isCreate && building.buildingName.trim().length === 0) {
+      if (isCreate && building.name.trim().length === 0) {
         this.$message.warning('请填写楼栋名称')
         return false
       }
-      if (isCreate && building.totalHouseholds.length === 0) {
+      if (isCreate && building.layer.length === 0) {
         this.$message.warning('请填写楼栋总用户数')
         return false
       }
       console.log(building.type.trim())
-      if (building.buildingType.trim().length === 0) {
+      if (building.type.trim().length === 0) {
         this.$message.warning('请选择楼栋类型')
         return false
       }
@@ -248,7 +256,7 @@ export default {
       return true
     },
     queryValidate(isCreate) {
-      if (isCreate && this.buildingNameText.trim().length === 0 && this.typeSelect.trim().length === 0) {
+      if (isCreate && this.nameText.trim().length === 0 && this.typeSelect.trim().length === 0) {
         this.$message.warning('请输入或选择您的查询条件！')
         return false
       }
@@ -257,7 +265,7 @@ export default {
     /**
      * 根据楼栋名称和类型进行模糊搜索
      */
-    queryBuildingNameAndTypeList() {
+    getNameAndTypeList() {
       if (!this.queryValidate(true)) return
       this.listLoading = true;
       this.api({
@@ -266,7 +274,7 @@ export default {
         params: {
           "pageNum" : this.listQuery.pageNum,
           "pageRow" : this.listQuery.pageRow,
-          "buildingName" : this.buildingNameText.trim(),
+          "name" : this.nameText.trim(),
           "type" : this.typeSelect === '-1' ? '' : this.typeSelect.trim(),
         }
       }).then(data => {

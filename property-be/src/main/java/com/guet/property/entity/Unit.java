@@ -10,39 +10,29 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 收费项目表
+ * 单元表
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_charge_item")
-public class ChargeItem implements Serializable {
+@TableName("tb_unit")
+public class Unit implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 收费项目ID
+     * 单元ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 收费编号
-     */
-    private String code;
-
-    /**
-     * 项目名称
-     */
-    private String name;
-
-    /**
      * 所属楼栋ID
      */
-    private Integer buildingId;
+    private Integer ownerId;
 
     /**
      * 所属楼栋名称
@@ -50,9 +40,24 @@ public class ChargeItem implements Serializable {
     private String buildingName;
 
     /**
-     * 项目收费金额（年），单位分
+     * 单元名
      */
-    private BigDecimal money;
+    private String name;
+
+    /**
+     * 总层数
+     */
+    private Integer totalLayer;
+
+    /**
+     * 面积
+     */
+    private BigDecimal area;
+
+    /**
+     * 状态（是否是电梯房）：0-否，1-是（默认）
+     */
+    private String status;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -75,6 +80,4 @@ public class ChargeItem implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

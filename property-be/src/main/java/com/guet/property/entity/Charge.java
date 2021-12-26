@@ -10,59 +10,34 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 设备表
+ * 收费项目表
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_device")
-public class Device implements Serializable {
+@TableName("tb_charge")
+public class Charge implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 设备ID
+     * 收费项目ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 设备编号
+     * 项目名称
      */
-    private String code;
+    private String chargeName;
 
     /**
-     * 设备名称
+     * 收费金额
      */
-    private String name;
-
-    /**
-     * 设备品牌
-     */
-    private String brand;
-
-    /**
-     * 购买单价(￥)，单位分
-     */
-    private BigDecimal unitPrice;
-
-    /**
-     * 购买数量
-     */
-    private Integer num;
-
-    /**
-     * 预计使用年限(年)
-     */
-    private Integer expectedUsefulLife;
-
-    /**
-     * 购买日期
-     */
-    private LocalDateTime purchaseDate;
+    private BigDecimal chargeStandard;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -85,6 +60,4 @@ public class Device implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

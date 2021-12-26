@@ -7,7 +7,7 @@
                     style="width: 250px">
           </el-input>
         </el-form-item>
-        <el-form-item label="业主类型">
+        <el-form-item label="住户类型">
           <el-select v-model="typeSelect" placeholder="请选择楼型">
             <el-option label="全部" value="-1"></el-option>
             <el-option label="房东" value="0"></el-option>
@@ -35,12 +35,13 @@
       <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
       <el-table-column align="center" prop="sex" label="性别" :formatter="sexFormat" width="80"/>
       <el-table-column align="center" prop="idCard" label="身份证号" width="200"/>
-      <el-table-column align="center" prop="type" label="业主类型" :formatter="ownerTypeFormat" width="100"/>
+      <el-table-column align="center" prop="type" label="住户类型" :formatter="ownerTypeFormat" width="100"/>
       <el-table-column align="center" prop="profession" label="职业" :formatter="professionalFormat" width="120"/>
-      <el-table-column align="center" prop="birthday" label="出身日期" width="200"/>
-      <el-table-column align="center" prop="telephone" label="联系方式" width="200"/>
-      <el-table-column align="center" prop="gmtCreate" label="创建时间" width="200"/>
-      <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="200"/>
+      <el-table-column align="center" prop="workUnits" label="工作单位" width="200"/>
+      <el-table-column align="center" prop="birthday" label="出身日期" width="140"/>
+      <el-table-column align="center" prop="telephone" label="联系方式" width="140"/>
+      <el-table-column align="center" prop="gmtCreate" label="创建时间" width="160"/>
+      <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="160"/>
       <el-table-column align="center" label="管理" width="228">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" icon="edit" @click="showUpdate(scope.$index)"
@@ -81,6 +82,13 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="出身日期" v-show="dialogStatus !== 'remove'" required>
+          <el-date-picker
+            v-model="tempOwner.birthday"
+            type="date"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
         <el-form-item label="住户类型" v-show="dialogStatus !== 'remove'" required>
           <el-select v-model="tempOwner.type" placeholder="请选择住户类型" style="width: 30%;">
             <el-option
@@ -101,12 +109,9 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="出身日期" v-show="dialogStatus !== 'remove'" required>
-          <el-date-picker
-            v-model="tempOwner.birthday"
-            type="date"
-            placeholder="选择日期">
-          </el-date-picker>
+        <el-form-item label="工作单位" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" v-model="tempOwner.workUnits" style="width: 50%;">
+          </el-input>
         </el-form-item>
         <el-form-item label="联系方式" v-show="dialogStatus !== 'remove'" required>
           <el-input type="text" v-model="tempOwner.telephone" style="width: 50%;">
@@ -118,9 +123,9 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="success" v-if="dialogStatus==='create'" @click="createOwner">创 建</el-button>
-        <el-button type="primary" v-if="dialogStatus==='update'" @click="updateOwner">修 改</el-button>
-        <el-button type="primary" v-if="dialogStatus==='remove'" @click="removeOwner">确 定</el-button>
+        <el-button type="success" v-show="dialogStatus==='create'" @click="createOwner">创 建</el-button>
+        <el-button type="primary" v-show="dialogStatus==='update'" @click="updateOwner">修 改</el-button>
+        <el-button type="primary" v-show="dialogStatus==='remove'" @click="removeOwner">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -160,14 +165,16 @@ export default {
       },
       tempOwner: {
         id: '',
+        buildingName: '',
         name: '',
-        idCard: '',
         sex: '',
-        type: '',
-        profession: '',
+        idCard: '',
         birthday: '',
         telephone: '',
+        profession: '',
+        workUnits: '',
         picture: '',
+        type: '',
         remark: ''
       },
       sexList: [
@@ -267,6 +274,7 @@ export default {
       this.tempOwner.profession = "";
       this.tempOwner.birthday = "";
       this.tempOwner.telephone = "";
+      this.tempOwner.workUnits = "";
       this.tempOwner.picture = "";
       this.tempOwner.remark = "";
       this.dialogStatus = "create"
@@ -282,6 +290,7 @@ export default {
       this.tempOwner.profession = owner.profession;
       this.tempOwner.birthday = owner.birthday;
       this.tempOwner.telephone = owner.telephone;
+      this.tempOwner.workUnits = owner.workUnits;
       this.dialogStatus = "update"
       this.dialogFormVisible = true
     },
@@ -322,6 +331,14 @@ export default {
       }
       if (owner.type.trim().length === 0) {
         this.$message.warning('请选择住户类型')
+        return false
+      }
+      if (owner.profession.trim().length === 0) {
+        this.$message.warning('请选择职业')
+        return false
+      }
+      if (owner.profession.trim().length === 0) {
+        this.$message.warning('请输入工作单位')
         return false
       }
       if (owner.birthday === null || owner.birthday === '') {

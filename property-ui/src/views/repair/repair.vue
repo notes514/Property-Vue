@@ -2,29 +2,25 @@
   <div class="app-container">
     <div class="filter-container">
       <el-form :inline="true" class="demo-form-inline">
-        <el-form-item label="公告内容">
-          <el-input prefix-icon="el-icon-search" placeholder="请输入楼栋名称" v-model="noticeTitleText" clearable
+        <el-form-item label="维修类型">
+          <el-input prefix-icon="el-icon-search" placeholder="请输入维修类型" v-model="deviceNameText" clearable
                     style="width: 250px">
           </el-input>
         </el-form-item>
-        <el-form-item label="公告状态">
-          <el-select v-model="statusSelect" placeholder="请选择楼型">
+        <el-form-item label="处理状态">
+          <el-select v-model="statusSelect" placeholder="请选择处理状态">
             <el-option label="全部" value="-1"></el-option>
-            <el-option label="关闭" value="0"></el-option>
-            <el-option label="开启" value="1"></el-option>
+            <el-option label="待受理" value="0"></el-option>
+            <el-option label="已受理" value="1"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="queryOwnerNameAndTypeList" plain>查询</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="getrepairContentAndStatusList" plain>查询</el-button>
         </el-form-item>
         <el-form-item>
           <el-button icon="el-icon-refresh" @click="reset" v-permission="'role:add'" plain>重置</el-button>
         </el-form-item>
       </el-form>
-    </div>
-    <div style="margin-bottom: 16px">
-      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="showCreate" v-permission="'role:add'">
-        添加</el-button>
     </div>
     <el-table :data="list" v-loading="listLoading" border :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
       <el-table-column align="center" label="序号" width="50">
@@ -32,10 +28,12 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="title" label="公告标题" width="380" ></el-table-column>
-      <el-table-column align="center" prop="content" label="公告内容" width="400"/>
-      <el-table-column align="center" prop="status" label="公告状态" :formatter="statusFormat" width="100" />
-      <el-table-column align="center" prop="releaseTime" label="发布时间" width="180" />
+      <el-table-column align="center" prop="buildingName" label="楼栋" width="140" ></el-table-column>
+      <el-table-column align="center" prop="repairContent" label="报修类型" width="200" ></el-table-column>
+      <el-table-column align="center" prop="deviceName" label="报修内容" width="300" ></el-table-column>
+      <el-table-column align="center" prop="ownerName" label="报修人员" width="140" ></el-table-column>
+      <el-table-column align="center" prop="status" label="处理状态" :formatter="statusFormat" width="140" />
+      <el-table-column align="center" prop="handler" label="处理人" :formatter="statusFormat" width="140" />
       <el-table-column align="center" prop="gmtCreate" label="创建时间" width="180" />
       <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="180" />
       <el-table-column align="center" label="管理" width="228">
@@ -57,43 +55,46 @@
       :page-sizes="[10, 20, 30, 50]"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form class="small-space" :model="tempNotice" label-position="left" label-width="80px"
+    <el-dialog :repairContent="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+      <el-form class="small-space" :model="tempRepair" label-position="left" label-width="80px"
                style='width: 100%; margin-left: 48px'>
-        <el-form-item label="公告标题" v-show="dialogStatus !== 'remove'" required>
-          <el-input type="text" v-model="tempNotice.title" style="width: 50%;">
+        <el-form-item label="楼栋" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempRepair.buildingName" style="width: 50%;">
           </el-input>
         </el-form-item>
-
-        <el-form-item label="公告内容" v-show="dialogStatus !== 'remove'" required>
-          <el-input  type="textarea" :rows="4" v-model="tempNotice.content" style="width: 50%;">
+        <el-form-item label="报修类型" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempRepair.repairType" style="width: 50%;">
           </el-input>
         </el-form-item>
-        <el-form-item label="公告状态" v-show="dialogStatus !== 'remove'" required>
+        <el-form-item label="报修内容" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempRepair.repairContent" style="width: 50%;">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="报修人员" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempRepair.ownerName" style="width: 50%;">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="处理状态" v-show="dialogStatus !== 'remove'" required>
           <template>
-            <el-radio-group v-model="tempNotice.status">
-              <el-radio :label="'1'">开启</el-radio>
-              <el-radio :label="'0'">关闭</el-radio>
+            <el-radio-group v-model="tempRepair.status">
+              <el-radio :label="'0'">待受理</el-radio>
+              <el-radio :label="'1'">已受理</el-radio>
             </el-radio-group>
           </template>
         </el-form-item>
-        <el-form-item label="发布时间" v-show="dialogStatus !== 'remove'" required>
-          <el-date-picker
-            v-model="tempNotice.releaseTime"
-            type="datetime"
-            placeholder="请选择公告发布时间">
-          </el-date-picker>
+        <el-form-item label="处理人" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempRepair.handler" style="width: 50%;">
+          </el-input>
         </el-form-item>
 
         <el-form-item v-show="dialogStatus === 'remove'" required>
-          <span style="font-size: 16px">确定要删除该公告吗？</span>
+          <span style="font-size: 16px">确定要删除该报修吗？</span>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="success" v-if="dialogStatus==='create'" @click="createNotice">创 建</el-button>
-        <el-button type="primary" v-if="dialogStatus==='update'" @click="updateNotice">修 改</el-button>
-        <el-button type="primary" v-if="dialogStatus==='remove'" @click="removeNotice">确 定</el-button>
+        <el-button type="primary" v-show="dialogStatus==='update'" @click="updateRepair">修 改</el-button>
+        <el-button type="primary" v-show="dialogStatus==='remove'" @click="removeRepair">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -102,11 +103,11 @@
 <script>
 
 export default {
-  name: "notice",
+  name: "repair",
   data() {
     return {
       // 搜索内容数据
-      noticeTitleText: '',
+      deviceNameText: '',
       // 类型选择
       statusSelect: '',
       //分页组件--数据总条数
@@ -126,16 +127,18 @@ export default {
       dialogFormVisible: false,
       dialogVisible: false,
       textMap: {
-        create: '新增公告',
-        update: '编辑公告',
+        update: '编辑报修',
         remove: '提示'
       },
-      tempNotice: {
+      tempRepair: {
         id: '',
-        title: '',
-        content: '',
+        buildingName: '',
+        ownerName: '',
+        repairType: '',
+        repairContent: '',
+        deviceName: '',
         status: '',
-        releaseTime: ''
+        handler: '',
       }
     }
   },
@@ -147,7 +150,7 @@ export default {
     getList() {
       this.listLoading = true;
       this.api({
-        url: "/notice/listNotice",
+        url: "/repair/listRepair",
         method: "get",
         params: this.listQuery
       }).then(data => {
@@ -157,10 +160,10 @@ export default {
       })
     },
     reset() {
-      if (this.noticeTitleText.trim().length !== 0 || this.statusSelect.trim().length !== 0) {
+      if (this.deviceNameText.trim().length !== 0 || this.statusSelect.trim().length !== 0) {
         this.getList()
       }
-      this.noticeTitleText = '';
+      this.deviceNameText = '';
       this.statusSelect = '';
 
     },
@@ -183,75 +186,55 @@ export default {
       // 表格序号
       return (this.listQuery.pageNum - 1) * this.listQuery.pageRow + $index + 1
     },
-    showCreate() {
-      // 显示新增对话框
-      this.tempNotice.title = "";
-      this.tempNotice.content = "";
-      this.tempNotice.status = "1";
-      this.tempNotice.releaseTime = "";
-      this.dialogStatus = "create"
-      this.dialogFormVisible = true
-    },
     showUpdate($index) {
-      let owner = this.list[$index];
-      this.tempNotice.id = owner.id;
-      this.tempNotice.title = owner.title;
-      this.tempNotice.content = owner.content;
-      this.tempNotice.status = owner.status;
-      this.tempNotice.releaseTime = owner.releaseTime;
+      let repair = this.list[$index];
+      this.tempRepair.id = repair.id;
+      this.tempRepair.buildingName = repair.buildingName;
+      this.tempRepair.ownerName = repair.ownerName;
+      this.tempRepair.repairType = repair.repairType;
+      this.tempRepair.repairContent = repair.repairContent;
+      this.tempRepair.status = repair.status;
+      this.tempRepair.handler = repair.handler;
       this.dialogStatus = "update"
       this.dialogFormVisible = true
     },
     showRemove($index) {
-      let owner = this.list[$index];
-      this.tempNotice.id = owner.id;
+      let repair = this.list[$index];
+      this.tempRepair.id = repair.id;
       this.dialogStatus = "remove"
       this.dialogFormVisible = true
     },
     statusFormat(notice) {
-      return notice.status === '1' ? '开启' : '关闭';
+      return notice.status === '0' ? '待受理' : '已受理';
     },
-    validate(isCreate) {
-      let owner = this.tempNotice
-      if (isCreate && owner.title.trim().length === 0) {
-        this.$message.warning('请输入公告内容')
-        return false
-      }
-      if (isCreate && owner.content.trim().length === 0) {
-        this.$message.warning('请输入公告地点')
-        return false
-      }
-      if (owner.status.trim().length === 0) {
-        this.$message.warning('请选择公告状态')
-        return false
-      }
-      if (owner.releaseTime === null || owner.releaseTime === '') {
-        this.$message.warning('请选择发布时间')
+    validate() {
+      if (this.tempRepair.status.trim().length === 0) {
+        this.$message.warning('请选择处理状态')
         return false
       }
 
       return true
     },
     queryValidate(isCreate) {
-      if (isCreate && this.noticeTitleText.trim().length === 0 && this.statusSelect.trim().length === 0) {
+      if (isCreate && this.deviceNameText.trim().length === 0 && this.statusSelect.trim().length === 0) {
         this.$message.warning('请输入或选择您的查询条件！')
         return false
       }
       return true
     },
     /**
-     * 根据楼栋名称和类型进行模糊搜索
+     * 根据报修事由和受理状态进行模糊搜索
      */
-    queryOwnerNameAndTypeList() {
+    getrepairContentAndStatusList() {
       if (!this.queryValidate(true)) return
       this.listLoading = true;
       this.api({
-        url: "/notice/likeNotice",
+        url: "/repair/likeRepair",
         method: "get",
         params: {
           "pageNum" : this.listQuery.pageNum,
           "pageRow" : this.listQuery.pageRow,
-          "title" : this.noticeTitleText.trim(),
+          "repairContent" : this.deviceNameText.trim(),
           "status" : this.statusSelect === '-1' ? '' : this.statusSelect.trim(),
         }
       }).then(data => {
@@ -260,39 +243,26 @@ export default {
         this.totalCount = data.totalCount;
       })
     },
-    createNotice() {
-      if (!this.validate(true)) return
-      // 保存新公告
-      this.api({
-        url: "/notice/addNotice",
-        method: "post",
-        data: this.tempNotice
-      }).then(() => {
-        this.$message.success('添加成功！')
-        this.getList();
-        this.dialogFormVisible = false
-      })
-    },
-    updateNotice() {
+    updateRepair() {
       if (!this.validate(false)) return
-      // 修改公告
+      // 修改报修
       this.api({
-        url: "/notice/updateNotice",
+        url: "/repair/updateRepair",
         method: "post",
-        data: this.tempNotice
+        data: this.tempRepair
       }).then(() => {
         this.$message.success('修改成功！')
         this.getList();
         this.dialogFormVisible = false
       });
     },
-    removeNotice() {
-      // 删除公告
+    removeRepair() {
+      // 删除报修
       this.api({
-        url: "/notice/deleteNotice",
+        url: "/repair/deleteRepair",
         method: "post",
         params: {
-          "id" : this.tempNotice.id
+          "id" : this.tempRepair.id
         }
       }).then(() => {
         this.$message.success('删除成功！')

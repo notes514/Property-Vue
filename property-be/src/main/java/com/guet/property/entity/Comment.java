@@ -9,54 +9,49 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 信件表
+ * 评论表
  * </p>
  *
  * @author dhxstart
- * @since 2021-12-19
+ * @since 2021-12-26
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_letter")
-public class Letter implements Serializable {
+@TableName("tb_comment")
+public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 信件ID
+     * 评论ID
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 信件发送者（业主）ID
+     * 主题ID
      */
-    private Integer ownerId;
+    private Integer topicId;
 
     /**
-     * 信件发送者（业主）名称
+     * 主题类型
      */
-    private String ownerName;
+    private String topicType;
 
     /**
-     * 信件来源：0-信箱（默认），1-邮件，2-微信，3-公众号，4-app,5-pc
-     */
-    private String origin;
-
-    /**
-     * 信件标题
-     */
-    private String title;
-
-    /**
-     * 信箱内容
+     * 评论内容
      */
     private String content;
 
     /**
-     * 状态:0-未读（默认），1-已读
+     * 评论用户ID
      */
-    private String status;
+    private Integer fromUid;
+
+    /**
+     * 评论目标用户ID
+     */
+    private Integer toUid;
 
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
@@ -79,6 +74,4 @@ public class Letter implements Serializable {
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }
