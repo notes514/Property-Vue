@@ -83,6 +83,22 @@ export const constantRouterMap = [
       },
     ]
   },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/complaint',
+    name: '功能模块',
+    meta: {title: '投诉管理', icon: 'tree'},
+    children: [
+      {
+        path: 'complaint',
+        name: '投诉',
+        component: _import('complaint/complaint'),
+        meta: {title: '投诉信息', icon: 'example'},
+        menu: 'complaint'
+      },
+    ]
+  },
 ]
 export default new Router({
   // mode: 'history', //后端支持可开

@@ -22,7 +22,7 @@ public class NoticeController {
     private NoticeService noticeService;
     
     /**
-     * 查询活动列表
+     * 查询公告列表
      */
     @GetMapping("/listNotice")
     public JSONObject listNotice(HttpServletRequest request) {
@@ -30,7 +30,7 @@ public class NoticeController {
     }
 
     /**
-     * 根据活动内容和活动地点进行模糊搜索
+     * 根据公告内容和公告地点进行模糊搜索
      */
     @GetMapping("/likeNotice")
     public JSONObject likeNoticeTitleStatus(HttpServletRequest request) {
@@ -38,7 +38,7 @@ public class NoticeController {
     }
 
     /**
-     * 添加活动列表
+     * 添加公告列表
      */
     @PostMapping("/addNotice")
     public JSONObject addNotice(@RequestBody JSONObject jsonObject) {
@@ -47,7 +47,7 @@ public class NoticeController {
     }
 
     /**
-     * 更新活动列表
+     * 更新公告列表
      */
     @PostMapping("/updateNotice")
     public JSONObject updateNotice(@RequestBody JSONObject jsonObject) {
@@ -56,7 +56,7 @@ public class NoticeController {
     }
 
     /**
-     * 删除活动
+     * 删除公告
      */
     @PostMapping("/deleteNotice")
     public JSONObject deleteNotice(HttpServletRequest request) {

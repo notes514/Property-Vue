@@ -29,16 +29,6 @@ public class Complaint implements Serializable {
     private Integer id;
 
     /**
-     * 所属楼栋ID
-     */
-    private Integer buildingId;
-
-    /**
-     * 所属楼栋名称
-     */
-    private String buildingName;
-
-    /**
      * 投诉人员（业主）ID
      */
     private Integer ownerId;
@@ -78,12 +68,15 @@ public class Complaint implements Serializable {
     /**
      * 创建时间
      */
+    private LocalDateTime complaintTime;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime gmtCreate;
 
     /**
      * 更新时间
      */
     private LocalDateTime gmtModified;
-
-
 }

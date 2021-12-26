@@ -1,5 +1,6 @@
 package com.guet.property.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.guet.property.entity.Complaint;
 
@@ -11,4 +12,43 @@ import com.guet.property.entity.Complaint;
  */
 public interface ComplaintService extends IService<Complaint> {
 
+    /**
+     * 获取投诉列表
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject listComplaint(JSONObject jsonObject);
+
+    /**
+     * 根据投诉标题和投诉状态进行模糊搜索
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject likeComplaintTitleAndStatus(JSONObject jsonObject);
+
+    /**
+     * 添加投诉信息
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject addComplaint(JSONObject jsonObject);
+
+    /**
+     * 更新投诉信息
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject updateComplaint(JSONObject jsonObject);
+
+    /**
+     * 删除投诉
+     *
+     * @param jsonObject json参数
+     * @return JSONObject
+     */
+    JSONObject deleteComplaint(JSONObject jsonObject);
 }

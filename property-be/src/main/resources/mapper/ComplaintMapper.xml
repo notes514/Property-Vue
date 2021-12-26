@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.guet.property.mapper.ComplaintMapper">
 
+    <select id="listComplaint" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT c.id                                         id,
+               c.owner_id                                   ownerId,
+               c.owner_name                                 ownerName,
+               c.reason                                     reason,
+               c.description                                description,
+               c.status                                     status,
+               date_format(c.complaint_Time, '%Y-%m-%d %T') complaintTime,
+               date_format(c.gmt_create, '%Y-%m-%d %T')     gmtCreate,
+               date_format(c.gmt_modified, '%Y-%m-%d %T')   gmtModified
+        FROM tb_complaint c
+        WHERE c.deleted = '0'
+        ORDER BY c.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="likeComplaintTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT c.id                                         id,
+               c.owner_id                                   ownerId,
+               c.owner_name                                 ownerName,
+               c.reason                                     reason,
+               c.description                                description,
+               c.status                                     status,
+               date_format(c.complaint_Time, '%Y-%m-%d %T') complaintTime,
+               date_format(c.gmt_create, '%Y-%m-%d %T')     gmtCreate,
+               date_format(c.gmt_modified, '%Y-%m-%d %T')   gmtModified
+        FROM tb_complaint c
+        <where>
+            <if test="reason != null and reason != ''">
+                c.reason LIKE concat('%', #{reason}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                c.status = #{status}
+            </if>
+            AND c.deleted = '0'
+        </where>
+        ORDER BY c.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
 </mapper>
