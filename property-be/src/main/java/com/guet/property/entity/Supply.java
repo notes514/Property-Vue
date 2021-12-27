@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tb_supply_demand")
-public class SupplyDemand implements Serializable {
+@TableName("tb_supply")
+public class Supply implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,6 +32,11 @@ public class SupplyDemand implements Serializable {
      * 供求人员（业主）ID
      */
     private Integer ownerId;
+
+    /**
+     * 供求人员（业主）名称
+     */
+    private String ownerName;
 
     /**
      * 供求标题

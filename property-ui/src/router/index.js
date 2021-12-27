@@ -113,6 +113,21 @@ export const constantRouterMap = [
         menu: 'repair'
       },
     ]
+  },{
+    path: '/system',
+    component: Layout,
+    redirect: '/system/supply',
+    name: '功能模块',
+    meta: {title: '供求管理', icon: 'tree'},
+    children: [
+      {
+        path: 'supply',
+        name: '供求',
+        component: _import('supply/supply'),
+        meta: {title: '供求信息', icon: 'example'},
+        menu: 'supply'
+      },
+    ]
   },
 ]
 export default new Router({
