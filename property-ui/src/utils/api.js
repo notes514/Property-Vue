@@ -25,9 +25,9 @@ service.interceptors.response.use(
     const res = response.data;
     console.log("res")
     console.log(res)
-    if (res.code === '200') {
-      return res.info;
-    } else if (res.code === "20011") {
+    if (res.code === 200) {
+      return res.data;
+    } else if (res.code === 20011) {
       Message({
         showClose: true,
         message: res.msg,

@@ -128,6 +128,21 @@ export const constantRouterMap = [
         menu: 'supply'
       },
     ]
+  },{
+    path: '/system',
+    component: Layout,
+    redirect: '/system/house',
+    name: '功能模块',
+    meta: {title: '房屋管理', icon: 'tree'},
+    children: [
+      {
+        path: 'house',
+        name: '房屋',
+        component: _import('house/house'),
+        meta: {title: '房屋信息', icon: 'example'},
+        menu: 'house'
+      },
+    ]
   },
 ]
 export default new Router({
