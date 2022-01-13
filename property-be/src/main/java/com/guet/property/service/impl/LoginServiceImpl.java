@@ -39,7 +39,7 @@ public class LoginServiceImpl implements LoginService {
         }
         String token = tokenService.generateToken(username);
         info.put("token", token);
-        return CommonUtils.successJson(info);
+        return CommonUtils.successJson(info, "登录成功！");
     }
 
     @Override

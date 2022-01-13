@@ -20,18 +20,25 @@ export const constantRouterMap = [
     }]
   },
   {
-    path: '/system',
+    path: '/assets',
     component: Layout,
-    redirect: '/system/building',
-    name: '功能模块',
-    meta: {title: '楼栋管理', icon: 'tree'},
+    redirect: '/assets/',
+    name: '资产管理',
+    meta: {title: '资产管理', icon: 'assets'},
     children: [
       {
-        path: 'building',
-        name: '楼栋',
-        component: _import('building/building'),
-        meta: {title: '楼栋信息', icon: 'example'},
+        path: '',
+        name: '楼栋信息',
+        component: _import('assets/building'),
+        meta: {title: '楼栋信息', icon: 'building'},
         menu: 'building'
+      },
+      {
+        path: 'house',
+        name: '房屋管理',
+        component: _import('assets/house'),
+        meta: {title: '房屋管理', icon: 'house'},
+        menu: 'house'
       },
     ]
   },
@@ -40,107 +47,67 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/system/owner',
     name: '功能模块',
-    meta: {title: '业主管理', icon: 'tree'},
+    meta: {title: '业主管理', icon: 'owner'},
     children: [
       {
         path: 'owner',
         name: '业主',
         component: _import('owner/owner'),
-        meta: {title: '业主信息', icon: 'example'},
+        meta: {title: '业主信息', icon: 'owner'},
         menu: 'owner'
       },
     ]
   },
   {
-    path: '/system',
+    path: '/convenience',
     component: Layout,
-    redirect: '/system/activity',
-    name: '功能模块',
-    meta: {title: '活动管理', icon: 'tree'},
+    redirect: '/convenience/',
+    name: '便民服务',
+    meta: {title: '便民服务', icon: 'convenience'},
     children: [
       {
-        path: 'activity',
-        name: '活动',
-        component: _import('activity/activity'),
-        meta: {title: '活动信息', icon: 'example'},
+        path: '',
+        name: '活动管理',
+        component: _import('convenience/activity'),
+        meta: {title: '活动管理', icon: 'activity'},
         menu: 'activity'
       },
-    ]
-  },
-  {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/notice',
-    name: '功能模块',
-    meta: {title: '公告管理', icon: 'tree'},
-    children: [
-      {
-        path: 'notice',
-        name: '公告',
-        component: _import('notice/notice'),
-        meta: {title: '公告信息', icon: 'example'},
-        menu: 'notice'
-      },
-    ]
-  },
-  {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/complaint',
-    name: '功能模块',
-    meta: {title: '投诉管理', icon: 'tree'},
-    children: [
-      {
-        path: 'complaint',
-        name: '投诉',
-        component: _import('complaint/complaint'),
-        meta: {title: '投诉信息', icon: 'example'},
-        menu: 'complaint'
-      },
-    ]
-  },{
-    path: '/system',
-    component: Layout,
-    redirect: '/system/repair',
-    name: '功能模块',
-    meta: {title: '报修管理', icon: 'tree'},
-    children: [
-      {
-        path: 'repair',
-        name: '报修',
-        component: _import('repair/repair'),
-        meta: {title: '报修信息', icon: 'example'},
-        menu: 'repair'
-      },
-    ]
-  },{
-    path: '/system',
-    component: Layout,
-    redirect: '/system/supply',
-    name: '功能模块',
-    meta: {title: '供求管理', icon: 'tree'},
-    children: [
       {
         path: 'supply',
-        name: '供求',
-        component: _import('supply/supply'),
-        meta: {title: '供求信息', icon: 'example'},
+        name: '供求管理',
+        component: _import('convenience/supply'),
+        meta: {title: '供求管理', icon: 'supply'},
         menu: 'supply'
       },
     ]
-  },{
-    path: '/system',
+  },
+  {
+    path: '/community',
     component: Layout,
-    redirect: '/system/house',
-    name: '功能模块',
-    meta: {title: '房屋管理', icon: 'tree'},
+    redirect: '/community/',
+    name: '社区服务',
+    meta: {title: '社区服务', icon: 'community'},
     children: [
       {
-        path: 'house',
-        name: '房屋',
-        component: _import('house/house'),
-        meta: {title: '房屋信息', icon: 'example'},
-        menu: 'house'
+        path: '',
+        name: '公告管理',
+        component: _import('community/notice'),
+        meta: {title: '公告管理', icon: 'notice'},
+        menu: 'notice'
+      },
+      {
+        path: 'complaint',
+        name: '投诉管理',
+        component: _import('community/complaint'),
+        meta: {title: '投诉管理', icon: 'complaint'},
+        menu: 'complaint'
+      },
+      {
+        path: 'repair',
+        name: '维修管理',
+        component: _import('community/repair'),
+        meta: {title: '维修管理', icon: 'repair'},
+        menu: 'repair'
       },
     ]
   },
@@ -156,13 +123,13 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/system/article',
     name: '功能模块',
-    meta: {title: '功能模块', icon: 'tree'},
+    meta: {title: '功能模块', icon: 'article'},
     children: [
       {
         path: 'article',
         name: '文章',
         component: _import('article/article'),
-        meta: {title: '文章', icon: 'example'},
+        meta: {title: '文章', icon: 'article'},
         menu: 'article'
       },
     ]
@@ -172,10 +139,14 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: '/user/',
     name: '',
-    meta: {title: '用户权限', icon: 'table'},
+    meta: {title: '用户权限', icon: 'user_permissions'},
     children: [
       {
-        path: '', name: '用户列表', component: _import('user/user'), meta: {title: '用户列表', icon: 'user'}, menu: 'user'
+        path: '',
+        name: '用户列表',
+        component: _import('user/user'),
+        meta: {title: '用户列表', icon: 'user'},
+        menu: 'user'
       },
       {
         path: 'role',

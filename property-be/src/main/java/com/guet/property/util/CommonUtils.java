@@ -26,12 +26,27 @@ public class CommonUtils {
     }
 
     /**
-     * 返回一个返回码为100的json
+     * 返回一个返回码为200的json
      */
     public static JSONObject successJson(Object data) {
         JSONObject resultJson = new JSONObject();
         resultJson.put("code", Constants.SUCCESS_CODE);
         resultJson.put("msg", Constants.SUCCESS_MSG);
+        resultJson.put("data", data);
+        return resultJson;
+    }
+
+    /**
+     * 请求成功返回的结果
+     *
+     * @param data 获取的数据
+     * @param message 提示星系
+     * @return com.alibaba.fastjson.JSONObject
+     */
+    public static JSONObject successJson(Object data, String message) {
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("code", Constants.SUCCESS_CODE);
+        resultJson.put("msg", message);
         resultJson.put("data", data);
         return resultJson;
     }
