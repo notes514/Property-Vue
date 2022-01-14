@@ -7,7 +7,7 @@ import java.util.Set;
 
 /**
  * 保存在session中的用户信息
- * //tb_activity,tb_article,tb_building,tb_charge_detail,tb_charge_item,tb_complaint,tb_device,tb_house,tb_letter,tb_notice,tb_owner,tb_repair,tb_supply_demand
+ *
  * @author dhxstart
  * @date 2021/12/9 19:38
  */

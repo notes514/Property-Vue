@@ -119,22 +119,6 @@ export default new Router({
 })
 export const asyncRouterMap = [
   {
-    path: '/system',
-    component: Layout,
-    redirect: '/system/article',
-    name: '功能模块',
-    meta: {title: '功能模块', icon: 'article'},
-    children: [
-      {
-        path: 'article',
-        name: '文章',
-        component: _import('article/article'),
-        meta: {title: '文章', icon: 'article'},
-        menu: 'article'
-      },
-    ]
-  },
-  {
     path: '/user',
     component: Layout,
     redirect: '/user/',
