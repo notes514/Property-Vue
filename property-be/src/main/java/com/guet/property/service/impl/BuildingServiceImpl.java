@@ -75,7 +75,7 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
         if (update <= 0) {
             return CommonUtils.filedJson("更新失败！");
         }
-        return CommonUtils.successJson();
+        return CommonUtils.successJson("更新成功！");
     }
 
     @Override
@@ -90,6 +90,6 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
         if (delete <= 0) {
             return CommonUtils.filedJson("删除失败！");
         }
-        return CommonUtils.successJson();
+        return CommonUtils.successJson("删除成功！");
     }
 }

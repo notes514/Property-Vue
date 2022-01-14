@@ -40,7 +40,7 @@ public class CommonUtils {
      * 请求成功返回的结果
      *
      * @param data 获取的数据
-     * @param message 提示星系
+     * @param message 提示信息
      * @return com.alibaba.fastjson.JSONObject
      */
     public static JSONObject successJson(Object data, String message) {
@@ -52,12 +52,24 @@ public class CommonUtils {
     }
 
     /**
+     * 请求成功返回的结果
+     *
+     * @param message 提示信息
+     * @return com.alibaba.fastjson.JSONObject
+     */
+    public static JSONObject successJson(String message) {
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("code", Constants.SUCCESS_CODE);
+        resultJson.put("msg", message);
+        resultJson.put("data", null);
+        return resultJson;
+    }
+
+    /**
      * 返回错误信息
      *
      * @param message 描述
-     * @return JSONObject
-     * @author dhxstart
-     * @date 2021/12/18 11:29
+     * @return com.alibaba.fastjson.JSONObject
      */
     public static JSONObject filedJson(String message) {
         JSONObject resultJson = new JSONObject();

@@ -9,12 +9,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * <p>
- * 收费项目表
- * </p>
+ * 收费项目表实体
  *
  * @author dhxstart
- * @since 2021-12-26
+ * @date 2022/1/14 12:41
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

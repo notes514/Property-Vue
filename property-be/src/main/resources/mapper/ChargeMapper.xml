@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guet.property.mapper.ChargeMapper">
+
+    <select id="listCharge" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT ch.id                                       id,
+               ch.charge_name                              chargeName,
+               ch.charge_standard                          chargeStandard,
+               ch.version                                  version,
+               date_format(ch.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(ch.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_charge c
+        WHERE ch.deleted = '0'
+        ORDER BY ch.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="likeChargeName" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT ch.id                                       id,
+               ch.charge_name                              chargeName,
+               ch.charge_standard                          chargeStandard,
+               ch.version                                  version,
+               date_format(ch.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(ch.gmt_modified, '%Y-%m-%d %T') gmtModified
+        FROM tb_charge ch
+        <where>
+            <if test="chargeName != null and chargeName != ''">
+                ch.charge_name LIKE concat('%', #{chargeName}, '%')
+            </if>
+            AND ch.deleted = '0'
+        </where>
+        ORDER BY ch.id ASC LIMIT #{offSet}, #{pageRow}
+    </select>
+</mapper>
