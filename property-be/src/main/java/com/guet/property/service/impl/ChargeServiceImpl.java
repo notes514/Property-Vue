@@ -11,6 +11,7 @@ import com.guet.property.util.CommonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,18 @@ public class ChargeServiceImpl extends ServiceImpl<ChargeMapper, Charge> impleme
         int count = chargeMapper.selectCount(new QueryWrapper<>());
         List<JSONObject> list = chargeMapper.listCharge(jsonObject);
         return CommonUtils.successPage(jsonObject, list, count);
+    }
+
+    @Override
+    public JSONObject listChargeName() {
+        QueryWrapper<Charge> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("charge_name");
+        List<Charge> list = chargeMapper.selectList(queryWrapper);
+        List<String> chargeNameList = new ArrayList<>();
+        for (Charge charge : list) {
+            chargeNameList.add(charge.getChargeName());
+        }
+        return CommonUtils.successJson(chargeNameList);
     }
 
     @Override

@@ -32,9 +32,9 @@ public class ChargeDetailController {
     /**
      * 根据收费项目明细名称模糊搜索
      */
-    @GetMapping("/likeChargeDetailNameAndType")
-    public JSONObject likeChargeDetailNameAndType(HttpServletRequest request) {
-        return chargeDetailService.likeChargeDetailNameAndType(CommonUtils.request2Json(request));
+    @GetMapping("/likeChargeDetailNameAndStatus")
+    public JSONObject likeChargeDetailNameAndStatus(HttpServletRequest request) {
+        return chargeDetailService.likeChargeDetailNameAndStatus(CommonUtils.request2Json(request));
     }
 
     /**

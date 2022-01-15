@@ -35,5 +35,5 @@ public class Constants {
     /**
      * 请求成功的消息
      */
-    public static final String SUCCESS_MSG = "";
+    public static final String SUCCESS_MSG = "请求成功";
 }

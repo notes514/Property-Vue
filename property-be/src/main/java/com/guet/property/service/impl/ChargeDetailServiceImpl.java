@@ -35,7 +35,7 @@ public class ChargeDetailServiceImpl extends ServiceImpl<ChargeDetailMapper, Cha
     }
 
     @Override
-    public JSONObject likeChargeDetailNameAndType(JSONObject jsonObject) {
+    public JSONObject likeChargeDetailNameAndStatus(JSONObject jsonObject) {
         CommonUtils.fillPageParam(jsonObject);
         List<JSONObject> list = chargeDetailMapper.likeChargeDetailNameAndType(jsonObject);
         return CommonUtils.successPage(jsonObject, list, list.size());

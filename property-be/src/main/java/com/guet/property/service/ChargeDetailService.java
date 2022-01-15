@@ -26,7 +26,7 @@ public interface ChargeDetailService extends IService<ChargeDetail> {
      * @param jsonObject json参数
      * @return JSONObject
      */
-    JSONObject likeChargeDetailNameAndType(JSONObject jsonObject);
+    JSONObject likeChargeDetailNameAndStatus(JSONObject jsonObject);
 
     /**
      * 添加收费项目明细

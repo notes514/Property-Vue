@@ -30,10 +30,18 @@ public class ChargeController {
     }
 
     /**
+     * 查询收费项目名称列表
+     */
+    @GetMapping("/listChargeName")
+    public JSONObject listChargeName() {
+        return chargeService.listChargeName();
+    }
+
+    /**
      * 根据收费项目名称模糊搜索
      */
-    @GetMapping("/likeCharge")
-    public JSONObject likeChargeNameAndType(HttpServletRequest request) {
+    @GetMapping("/likeChargeName")
+    public JSONObject likeChargeName(HttpServletRequest request) {
         return chargeService.likeChargeName(CommonUtils.request2Json(request));
     }
 

@@ -21,6 +21,13 @@ public interface ChargeService extends IService<Charge> {
     JSONObject listCharge(JSONObject jsonObject);
 
     /**
+     * 获取收费项目名称列表
+     *
+     * @return JSONObject
+     */
+    JSONObject listChargeName();
+
+    /**
      * 此方法用于针对收费项目名称进行模糊查询
      *
      * @param jsonObject json参数

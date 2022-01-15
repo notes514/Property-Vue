@@ -59,6 +59,29 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/cost',
+    component: Layout,
+    redirect: '/cost/',
+    name: '费用管理',
+    meta: {title: '费用管理', icon: 'cost'},
+    children: [
+      {
+        path: '',
+        name: '收费项目',
+        component: _import('cost/charge'),
+        meta: {title: '收费项目', icon: 'charge'},
+        menu: 'charge'
+      },
+      {
+        path: 'supply',
+        name: '收费明细',
+        component: _import('cost/chargeDetail'),
+        meta: {title: '收费明细', icon: 'charge_detail'},
+        menu: 'chargeDetail'
+      },
+    ]
+  },
+  {
     path: '/convenience',
     component: Layout,
     redirect: '/convenience/',

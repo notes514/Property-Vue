@@ -9,7 +9,7 @@
                ch.version                                  version,
                date_format(ch.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(ch.gmt_modified, '%Y-%m-%d %T') gmtModified
-        FROM tb_charge c
+        FROM tb_charge ch
         WHERE ch.deleted = '0'
         ORDER BY ch.id ASC LIMIT #{offSet}, #{pageRow}
     </select>
