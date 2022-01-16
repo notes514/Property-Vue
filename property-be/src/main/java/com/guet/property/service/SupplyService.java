@@ -51,4 +51,18 @@ public interface SupplyService extends IService<Supply> {
      * @return JSONObject
      */
     JSONObject deleteSupply(JSONObject jsonObject);
+
+    /**
+     * 获取最新供求信息
+     *
+     * @return JSONObject
+     */
+    JSONObject getLatestSupply();
+
+    /**
+     * 供求统计
+     *
+     * @return JSONObject
+     */
+    JSONObject getSupplyCount();
 }

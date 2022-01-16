@@ -51,4 +51,11 @@ public interface HouseService extends IService<House> {
      * @return JSONObject
      */
     JSONObject deleteHouse(JSONObject jsonObject);
+
+    /**
+     * 房屋统计
+     *
+     * @return JSONObject
+     */
+    JSONObject getHouseCount();
 }

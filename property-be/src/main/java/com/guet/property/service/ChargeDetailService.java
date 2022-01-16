@@ -51,4 +51,11 @@ public interface ChargeDetailService extends IService<ChargeDetail> {
      * @return JSONObject
      */
     JSONObject deleteChargeDetail(JSONObject jsonObject);
+
+    /**
+     * 收费项目明细统计
+     *
+     * @return JSONObject
+     */
+    JSONObject getChargeDetailCount();
 }

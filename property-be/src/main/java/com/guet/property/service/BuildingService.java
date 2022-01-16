@@ -55,4 +55,11 @@ public interface BuildingService extends IService<Building> {
      */
     @Transactional(rollbackFor = Exception.class)
     JSONObject deleteBuilding(JSONObject jsonObject);
+
+    /**
+     * 楼栋统计
+     *
+     * @return com.alibaba.fastjson.JSONObject
+     */
+    JSONObject getBuildingCount();
 }

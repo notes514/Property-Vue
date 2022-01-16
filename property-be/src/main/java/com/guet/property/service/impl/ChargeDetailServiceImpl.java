@@ -85,4 +85,15 @@ public class ChargeDetailServiceImpl extends ServiceImpl<ChargeDetailMapper, Cha
         }
         return CommonUtils.successJson("删除成功!");
     }
+
+    @Override
+    public JSONObject getChargeDetailCount() {
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put("totalCount", count());
+        jsonObject.put("notPayCostCount", chargeDetailMapper.selectCount(
+                new QueryWrapper<ChargeDetail>().eq("pay_status", "0")));
+        jsonObject.put("payCostCount", chargeDetailMapper.selectCount(
+                new QueryWrapper<ChargeDetail>().eq("pay_status", "1")));
+        return CommonUtils.successJson(jsonObject);
+    }
 }

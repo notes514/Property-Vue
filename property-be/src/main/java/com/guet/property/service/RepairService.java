@@ -51,4 +51,11 @@ public interface RepairService extends IService<Repair> {
      * @return JSONObject
      */
     JSONObject deleteRepair(JSONObject jsonObject);
+
+    /**
+     * 获取最新报修信息
+     *
+     * @return JSONObject
+     */
+    JSONObject getLatestRepair();
 }

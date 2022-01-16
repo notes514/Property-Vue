@@ -92,4 +92,15 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
         }
         return CommonUtils.successJson("删除成功！");
     }
+
+    @Override
+    public JSONObject getBuildingCount() {
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put("totalCount", count());
+        jsonObject.put("stairsCount", buildingMapper.selectCount(
+                new QueryWrapper<Building>().eq("type", "0")));
+        jsonObject.put("elevatorCount", buildingMapper.selectCount(
+                new QueryWrapper<Building>().eq("type", "1")));
+        return CommonUtils.successJson(jsonObject);
+    }
 }

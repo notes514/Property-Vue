@@ -87,4 +87,15 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, House> implements
         }
         return CommonUtils.successJson();
     }
+
+    @Override
+    public JSONObject getHouseCount() {
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put("totalCount", count());
+        jsonObject.put("forSaleCount", houseMapper.selectCount(
+                new QueryWrapper<House>().eq("status", "0")));
+        jsonObject.put("haveSalesCount", houseMapper.selectCount(
+                new QueryWrapper<House>().eq("status", "1")));
+        return CommonUtils.successJson(jsonObject);
+    }
 }

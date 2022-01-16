@@ -51,4 +51,12 @@ public interface ActivityService extends IService<Activity> {
      * @return JSONObject
      */
     JSONObject deleteActivity(JSONObject jsonObject);
+
+
+    /**
+     * 获取最新活动
+     *
+     * @return JSONObject
+     */
+    JSONObject getLatestActivity();
 }

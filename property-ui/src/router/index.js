@@ -15,8 +15,9 @@ export const constantRouterMap = [
     redirect: '/dashboard',
     name: '首页',
     hidden: true,
+    meta: {title: '报表盘', icon: 'report_plate'},
     children: [{
-      path: 'dashboard', component: _import('dashboard/index')
+      path: 'dashboard', component: _import('dashboard/index'),
     }]
   },
   {

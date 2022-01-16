@@ -82,4 +82,24 @@ public class SupplyServiceImpl extends ServiceImpl<SupplyMapper, Supply> impleme
         }
         return CommonUtils.successJson();
     }
+
+    @Override
+    public JSONObject getLatestSupply() {
+        QueryWrapper<Supply> wrapper = new QueryWrapper<>();
+        wrapper.last("LIMIT 5");
+        wrapper.orderByDesc("gmt_create");
+        List<Supply> list = supplyMapper.selectList(wrapper);
+        return CommonUtils.successJson(list);
+    }
+
+    @Override
+    public JSONObject getSupplyCount() {
+        final JSONObject jsonObject = new JSONObject();
+        jsonObject.put("totalCount", count());
+        jsonObject.put("startCount", supplyMapper.selectCount(
+                new QueryWrapper<Supply>().eq("status", "0")));
+        jsonObject.put("endCount", supplyMapper.selectCount(
+                new QueryWrapper<Supply>().eq("status", "2")));
+        return CommonUtils.successJson(jsonObject);
+    }
 }

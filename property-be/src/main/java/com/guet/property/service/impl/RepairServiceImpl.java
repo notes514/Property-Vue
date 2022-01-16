@@ -82,4 +82,13 @@ public class RepairServiceImpl extends ServiceImpl<RepairMapper, Repair> impleme
         }
         return CommonUtils.successJson();
     }
+
+    @Override
+    public JSONObject getLatestRepair() {
+        QueryWrapper<Repair> wrapper = new QueryWrapper<>();
+        wrapper.last("LIMIT 5");
+        wrapper.orderByDesc("gmt_create");
+        List<Repair> list = repairMapper.selectList(wrapper);
+        return CommonUtils.successJson(list);
+    }
 }

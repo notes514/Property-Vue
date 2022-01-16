@@ -1,14 +1,13 @@
 <template>
   <div class="app-container">
-
     <el-row :gutter="50" class="card-row">
       <el-col :span="6">
-        <el-card shadow="always" class="el-card__body" style="background: lightblue">
+        <el-card shadow="always" class="el-card__body" style="background: #87cefa">
           <el-row>
             <el-col :span="12">
               <div>
-                <h2 style="color: white">89</h2>
-                <h4 style="color: white">业主</h4>
+                <h2 style="color: white">{{ this.ownerCount }}</h2>
+                <h5 style="color: white">业主</h5>
               </div>
             </el-col>
             <el-col :span="12">
@@ -24,7 +23,7 @@
           <el-row>
             <el-col :span="12">
               <div>
-                <h2 style="color: white">99</h2>
+                <h2 style="color: white">{{ this.noticeCount }}</h2>
                 <h5 style="color: white">通知公告</h5>
               </div>
             </el-col>
@@ -37,11 +36,11 @@
         </el-card>
       </el-col>
       <el-col :span="6">
-        <el-card shadow="always" class="el-card__body" style="background: deepskyblue">
+        <el-card shadow="always" class="el-card__body" style="background: #00bfff">
           <el-row>
             <el-col :span="12">
               <div>
-                <h2 style="color: white">59</h2>
+                <h2 style="color: white">{{ this.repairCount }}</h2>
                 <h5 style="color: white">用户报修</h5>
               </div>
             </el-col>
@@ -54,11 +53,11 @@
         </el-card>
       </el-col>
       <el-col :span="6">
-        <el-card shadow="always" class="el-card__body" style="background: lightgreen">
+        <el-card shadow="always" class="el-card__body" style="background: #90ee90">
           <el-row>
             <el-col :span="12">
               <div>
-                <h2 style="color: white">49</h2>
+                <h2 style="color: white">{{ this.complaintCount }}</h2>
                 <h5 style="color: white">用户投诉</h5>
               </div>
             </el-col>
@@ -73,68 +72,132 @@
     </el-row>
     <el-row :gutter="50" class="card-row">
       <el-col :span="6">
-        <el-card style="text-align: center" v-loading="gaugeLoading">
+        <el-card style="text-align: center" v-loading="buildingGaugeLoading">
           <div slot="header" class="card-header">
             <span class="card-header-title">楼栋统计</span>
-            <el-button round>刷新</el-button>
+            <el-button round @click="refreshBuilding">刷新</el-button>
           </div>
-          <el-row :span="16">
+          <el-row :span="6">
             <el-col>
               <echarts-gauge
-                id="gauge"
-                style="width: 100%; height: 300px;"
-                :option="gaugeOption"/>
+                id="buildingGaugeOption"
+                style="width: 100%; height: 180px;"
+                :option="buildingGaugeOption"/>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <span style="font-weight:bold; color: #87CEFA">{{this.stairsCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">楼梯房</span>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #87CEFA">{{this.elevatorCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">电梯房</span>
+              </div>
             </el-col>
           </el-row>
         </el-card>
       </el-col>
       <el-col :span="6">
-        <el-card v-loading="gaugeLoading">
+        <el-card style="text-align: center" v-loading="houseGaugeLoading">
           <div slot="header" class="card-header">
             <span class="card-header-title">房屋统计</span>
-            <el-button round>刷新</el-button>
+            <el-button round @click="refreshHouse">刷新</el-button>
           </div>
-          <el-row :span="16">
+          <el-row :span="6">
             <el-col>
               <echarts-gauge
-                id="gauge4"
-                style="width: 100%; height: 300px;"
-                :option="gauge2Option"
+                id="houseGaugeOption"
+                style="width: 100%; height: 180px;"
+                :option="houseGaugeOption"
               />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #00ced1">{{this.forSaleCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">未销售</span>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #00ced1">{{this.haveSalesCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">已入住</span>
+              </div>
             </el-col>
           </el-row>
         </el-card>
       </el-col>
       <el-col :span="6">
-        <el-card v-loading="gaugeLoading">
+        <el-card style="text-align: center" v-loading="chargeDetailGaugeLoading">
           <div slot="header" class="card-header">
             <span class="card-header-title">缴费统计</span>
-            <el-button round>刷新</el-button>
+            <el-button round @click="refreshChargeDetail">刷新</el-button>
           </div>
-          <el-row :span="16">
+          <el-row :span="6">
             <el-col>
               <echarts-gauge
-                id="gauge7"
-                style="width: 100%; height: 300px;"
-                :option="gauge3Option"
+                id="chargeDetailGaugeOption"
+                style="width: 100%; height: 180px;"
+                :option="chargeDetailGaugeOption"
               />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #00BFFF">{{this.notPayCostCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">未缴费</span>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #00BFFF">{{this.payCostCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">已缴费</span>
+              </div>
             </el-col>
           </el-row>
         </el-card>
       </el-col>
-      <el-col :span="6">
-        <el-card v-loading="gaugeLoading">
+      <el-col style="text-align: center" :span="6">
+        <el-card v-loading="supplyGaugeLoading">
           <div slot="header" class="card-header">
-            <span class="card-header-title">业主供求统计</span>
-            <el-button round>刷新</el-button>
+            <span class="card-header-title">供求统计</span>
+            <el-button round @click="refreshSupply">刷新</el-button>
           </div>
-          <el-row :span="16">
+          <el-row :span="6">
             <el-col>
               <echarts-gauge
-                id="gauge8"
-                style="width: 100%; height: 300px;"
-                :option="gauge3Option"
+                id="supplyGaugeOption"
+                style="width: 100%; height: 180px;"
+                :option="supplyGaugeOption"
               />
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #90EE90">{{this.startCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">未开始</span>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div>
+                <span style="font-weight:bold; color: #90EE90">{{this.endCount}}</span>
+                <p/>
+                <span style="font-weight:bold;">已结束</span>
+              </div>
             </el-col>
           </el-row>
         </el-card>
@@ -142,41 +205,65 @@
     </el-row>
     <el-row :gutter="40" class="card-row">
       <el-col :span="8">
-        <el-card style="text-align: left" v-loading="gaugeLoading">
+        <el-card v-loading="activityGaugeLoading" style="height: 300px;">
           <div slot="header" class="card-header">
             <span class="card-header-title">最新活动</span>
-            <el-button round>刷新</el-button>
+            <el-button round @click="refreshActivity">刷新</el-button>
           </div>
-          <div v-for="o in 5" :key="o" class="text item">
-            {{ ' 五四青年节活动 ' + o }}
-            <span style="float: right; color: #1482f0; font-weight: bold">未开始</span>
-            <span style="float: right; margin-right: 64px">2021-12-28 08:52:44</span>
+          <div v-show="activityDataList.length >= 0" v-for="activity in activityDataList" :key="activity.index"
+               class="text item">
+            <span>{{ activity.title | ellipsis }}</span>
+            <span style="float: right;">{{ activity.gmtCreate }}</span>
+          </div>
+          <div v-show="activityDataList.length === 0">
+            <div style="text-align: center">
+              <el-image src="/src/icons/png/temporarily_no_data.png"></el-image>
+            </div>
+            <div style="text-align: center; padding-top: 10px">
+              <span style="color: #bbbbbb;">暂无数据</span>
+            </div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card v-loading="gaugeLoading">
+        <el-card v-loading="tradingGaugeLoading" style="height: 300px;">
           <div slot="header" class="card-header">
             <span class="card-header-title">最新交易</span>
-            <el-button round>刷新</el-button>
+            <el-button round @click="refreshTrading">刷新</el-button>
           </div>
-          <div v-for="o in 5" :key="o" class="text item">
-            <span style="font-weight: bold">{{ ' 从家里带来50瓶野生蜂蜜 ' + o }}</span>
-            <span style="float: right; color: #1482f0; font-weight: bold">未开始</span>
-            <span style="float: right; margin-right: 64px">2021-12-28 08:52:44</span>
+          <div v-show="supplyDataList.length >= 0" v-for="supply in supplyDataList" :key="supply.index"
+               class="text item">
+            <span>{{ supply.title | ellipsis }}</span>
+            <span style="float: right;">{{ supply.gmtCreate }}</span>
+          </div>
+          <div v-show="supplyDataList.length === 0">
+            <div style="text-align: center">
+              <el-image src="/src/icons/png/temporarily_no_data.png"></el-image>
+            </div>
+            <div style="text-align: center; padding-top: 10px">
+              <span style="color: #bbbbbb;">暂无数据</span>
+            </div>
           </div>
         </el-card>
       </el-col>
       <el-col :span="8">
-        <el-card v-loading="gaugeLoading">
+        <el-card v-loading="repairGaugeLoading" style="height: 300px;">
           <div slot="header" class="card-header">
             <span class="card-header-title">最新报修</span>
-            <el-button round>刷新</el-button>
+            <el-button round @click="refreshRepair">刷新</el-button>
           </div>
-          <div v-for="o in 5" :key="o" class="text item">
-            {{ ' 13楼摄像头维修 ' + o }}
-            <span style="float: right; color: #1482f0; font-weight: bold">未开始</span>
-            <span style="float: right; margin-right: 64px">2021-12-28 08:52:44</span>
+          <div v-show="repairDataList.length >= 0" v-for="repair in repairDataList" :key="repair.index"
+               class="text item">
+            <span>{{ repair.repairType | ellipsis }}</span>
+            <span style="float: right;">{{ repair.gmtCreate }}</span>
+          </div>
+          <div v-show="repairDataList.length === 0">
+            <div style="text-align: center">
+              <el-image src="/src/icons/png/temporarily_no_data.png"></el-image>
+            </div>
+            <div style="text-align: center; padding-top: 10px">
+              <span style="color: #bbbbbb;">暂无数据</span>
+            </div>
           </div>
         </el-card>
       </el-col>
@@ -193,77 +280,278 @@ export default {
   },
   data() {
     return {
-      src: 'https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg',
-      gaugeTitle: '楼栋统计',
-      gaugeLoading: false,
-      gaugeOption: {
+      ownerCount: 0,
+      noticeCount: 0,
+      repairCount: 0,
+      complaintCount: 0,
+      buildingCount: 0,
+      houseCount: 0,
+      chargeDetailCount: 0,
+      supplyCount: 0,
+      buildingGaugeLoading: false,
+      houseGaugeLoading: false,
+      chargeDetailGaugeLoading: false,
+      supplyGaugeLoading: false,
+      activityGaugeLoading: false,
+      tradingGaugeLoading: false,
+      repairGaugeLoading: false,
+      buildingGaugeOption: {
         series: [
           {
-            data: [1],
+            data: [],
             progress: {
               itemStyle: {
-                color: ''
+                color: '#87CEFA'
               }
             }
-          }
+          },
         ],
         graphic: {
           style: {
-            text: '65%'
+            text: ''
           }
         }
       },
-      gauge2Option: {
+      houseGaugeOption: {
         series: [
           {
-            data: [46],
+            data: [],
             progress: {
               itemStyle: {
-                color: ''
+                color: '#00ced1'
               }
             }
-          }
+          },
         ],
         graphic: {
           style: {
-            text: '46%'
+            text: ''
           }
         }
       },
-      gauge3Option: {
+      chargeDetailGaugeOption: {
         series: [
           {
-            data: [88],
+            data: [],
             progress: {
               itemStyle: {
-                color: ''
+                color: '#00BFFF'
               }
             }
-          }
+          },
         ],
         graphic: {
           style: {
-            text: '88%'
+            text: ''
           }
         }
+      },
+      supplyGaugeOption: {
+        series: [
+          {
+            data: [],
+            progress: {
+              itemStyle: {
+                color: '#90EE90'
+              }
+            }
+          },
+        ],
+        graphic: {
+          style: {
+            text: ''
+          }
+        }
+      },
+      elevatorCount: 0,
+      stairsCount: 0,
+      haveSalesCount: 0,
+      forSaleCount: 0,
+      notPayCostCount: 0,
+      payCostCount: 0,
+      startCount: 2,
+      endCount: 0,
+      activityDataList: [0],
+      supplyDataList: [0],
+      repairDataList: [0],
+    }
+  },
+  filters: {
+    ellipsis(value) {
+      if (!value) return ''
+      if (value.length > 10) {
+        return value.slice(0, 10) + '...'
       }
+      return value
     }
   },
   created() {
-    this.gaugeOption.series[0].progress.itemStyle.color = this.setGaugeColor(this.gaugeOption.series[0].data[0])
-    this.gauge2Option.series[0].progress.itemStyle.color = this.setGaugeColor(this.gauge2Option.series[0].data[0])
-    this.gauge3Option.series[0].progress.itemStyle.color = this.setGaugeColor(this.gauge3Option.series[0].data[0])
+    this.getOwnerCount();
+    this.getNoticeCount();
+    this.getRepairCount();
+    this.getComplaintCount();
+    this.getBuildingCount();
+    this.getHouseCount();
+    this.getChargeDetailCount();
+    this.getSupplyCount();
+    this.getLatestActivity();
+    this.getLatestSupply();
+    this.getLatestRepair();
   },
   methods: {
-    setGaugeColor(value) {
-      if (value > 40 && value <= 80) {
-        return '#4D9CFE'
-      } else if (value > 80) {
-        return '#3DE182'
-      } else {
-        return '#FFAB91'
-      }
+    getOwnerCount() {
+      this.api({
+        url: "/report/getOwnerCount",
+        method: "get",
+      }).then(data => {
+        this.ownerCount = data;
+      })
     },
+    getNoticeCount() {
+      this.api({
+        url: "/report/getNoticeCount",
+        method: "get",
+      }).then(data => {
+        this.noticeCount = data;
+      })
+    },
+    getRepairCount() {
+      this.api({
+        url: "/report/getRepairCount",
+        method: "get",
+      }).then(data => {
+        this.repairCount = data;
+      })
+    },
+    getComplaintCount() {
+      this.api({
+        url: "/report/getComplaintCount",
+        method: "get",
+      }).then(data => {
+        this.complaintCount = data;
+      })
+    },
+    getBuildingCount() {
+      this.api({
+        url: "/report/getBuildingCount",
+        method: "get",
+      }).then(data => {
+        this.buildingGaugeLoading = false;
+        this.buildingCount = data.totalCount;
+        this.buildingGaugeOption.series[0].data[0] = data.totalCount;
+        this.buildingGaugeOption.graphic.style.text = data.totalCount;
+        this.elevatorCount = data.elevatorCount;
+        this.stairsCount = data.stairsCount;
+      })
+    },
+    getHouseCount() {
+      this.api({
+        url: "/report/getHouseCount",
+        method: "get",
+      }).then(data => {
+        this.houseGaugeLoading = false;
+        this.houseCount = data.totalCount;
+        this.houseGaugeOption.series[0].data[0] = data.totalCount;
+        this.houseGaugeOption.graphic.style.text = data.totalCount;
+        this.haveSalesCount = data.haveSalesCount;
+        this.forSaleCount = data.forSaleCount;
+      })
+    },
+    getChargeDetailCount() {
+      this.api({
+        url: "/report/getChargeDetailCount",
+        method: "get",
+      }).then(data => {
+        this.chargeDetailGaugeLoading = false;
+        this.chargeDetailCount = data.totalCount;
+        this.chargeDetailGaugeOption.series[0].data[0] = data.totalCount;
+        this.chargeDetailGaugeOption.graphic.style.text = data.totalCount;
+        this.notPayCostCount = data.notPayCostCount;
+        this.payCostCount = data.payCostCount;
+      })
+    },
+    getSupplyCount() {
+      this.api({
+        url: "/report/getSupplyCount",
+        method: "get",
+      }).then(data => {
+        this.supplyGaugeLoading = false;
+        this.supplyCount = data.totalCount;
+        this.supplyGaugeOption.series[0].data[0] = data.totalCount;
+        this.supplyGaugeOption.graphic.style.text = data.totalCount;
+        this.startCount = data.startCount;
+        this.endCount = data.endCount;
+      })
+    },
+    getLatestActivity() {
+      this.api({
+        url: "/report/getLatestActivity",
+        method: "get",
+      }).then(data => {
+        this.activityGaugeLoading = false;
+        this.activityDataList = data;
+      })
+    },
+    getLatestSupply() {
+      this.api({
+        url: "/report/getLatestSupply",
+        method: "get",
+      }).then(data => {
+        this.tradingGaugeLoading = false;
+        this.supplyDataList = data;
+      })
+    },
+    getLatestRepair() {
+      this.api({
+        url: "/report/getLatestRepair",
+        method: "get",
+      }).then(data => {
+        this.repairGaugeLoading = false;
+        this.repairDataList = data;
+      })
+    },
+    refreshBuilding() {
+      this.buildingGaugeLoading = true;
+      setTimeout(() => {
+        this.getBuildingCount();
+      }, 300);
+    },
+    refreshHouse() {
+      this.houseGaugeLoading = true;
+      setTimeout(() => {
+        this.getHouseCount();
+      }, 300);
+    },
+    refreshChargeDetail() {
+      this.chargeDetailGaugeLoading = true;
+      setTimeout(() => {
+        this.getChargeDetailCount();
+      }, 300);
+    },
+    refreshSupply() {
+      this.supplyGaugeLoading = true;
+      setTimeout(() => {
+        this.getSupplyCount();
+      }, 300);
+    },
+    refreshActivity() {
+      this.activityGaugeLoading = true;
+      setTimeout(() => {
+        this.getLatestActivity();
+      }, 300);
+    },
+    refreshTrading() {
+      this.tradingGaugeLoading = true;
+      setTimeout(() => {
+        this.getLatestSupply();
+      }, 300);
+    },
+    refreshRepair() {
+      this.repairGaugeLoading = true;
+      setTimeout(() => {
+        this.getLatestRepair();
+      }, 300);
+    }
   }
 }
 </script>
@@ -319,8 +607,8 @@ export default {
 }
 
 .el-card__body {
-  padding: 10px;
-  background: darkturquoise;
+  padding: 2px;
+  background: #00ced1;
 }
 
 .el-row::after {

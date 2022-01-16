@@ -92,4 +92,13 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }
         return CommonUtils.successJson();
     }
+
+    @Override
+    public JSONObject getLatestActivity() {
+        QueryWrapper<Activity> wrapper = new QueryWrapper<>();
+        wrapper.last("LIMIT 5");
+        wrapper.orderByDesc("gmt_create");
+        List<Activity> list = activityMapper.selectList(wrapper);
+        return CommonUtils.successJson(list);
+    }
 }
