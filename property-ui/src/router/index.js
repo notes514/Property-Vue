@@ -29,9 +29,9 @@ export const constantRouterMap = [
     children: [
       {
         path: '',
-        name: '楼栋信息',
+        name: '楼栋管理',
         component: _import('assets/building'),
-        meta: {title: '楼栋信息', icon: 'building'},
+        meta: {title: '楼栋管理', icon: 'building'},
         menu: 'building'
       },
       {
@@ -54,7 +54,7 @@ export const constantRouterMap = [
         path: 'owner',
         name: '业主',
         component: _import('owner/owner'),
-        meta: {title: '业主信息', icon: 'owner'},
+        meta: {title: '业主管理', icon: 'owner'},
         menu: 'owner'
       },
     ]
