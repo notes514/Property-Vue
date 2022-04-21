@@ -47,6 +47,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-pagination
       background
       @size-change="handleSizeChange"
@@ -54,7 +55,7 @@
       :current-page="listQuery.pageNum"
       :page-size="listQuery.pageRow"
       :total="totalCount"
-      :page-sizes="[10, 20, 30, 50]"
+      :page-sizes="[5, 10, 20, 30]"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">

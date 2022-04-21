@@ -12,7 +12,7 @@
                date_format(n.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_notice n
         WHERE n.deleted = '0'
-        ORDER BY n.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY n.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeNoticeTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
