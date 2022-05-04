@@ -7,15 +7,17 @@
                s.owner_id                                 ownerId,
                s.owner_name                               ownerName,
                s.title                                    title,
+               s.content                                  content,
                s.address                                  address,
                s.status                                   status,
+               s.image_url                                imageUrl,
                date_format(s.start_time, '%Y-%m-%d %T')   startTime,
                date_format(s.end_time, '%Y-%m-%d %T')     endTime,
                date_format(s.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(s.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_supply s
         WHERE s.deleted = '0'
-        ORDER BY s.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY s.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeSupplyTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
@@ -23,8 +25,10 @@
                s.owner_id                                 ownerId,
                s.owner_name                               ownerName,
                s.title                                    title,
+               s.content                                  content,
                s.address                                  address,
                s.status                                   status,
+               s.image_url                                imageUrl,
                date_format(s.start_time, '%Y-%m-%d %T')   startTime,
                date_format(s.end_time, '%Y-%m-%d %T')     endTime,
                date_format(s.gmt_create, '%Y-%m-%d %T')   gmtCreate,
@@ -39,6 +43,6 @@
             </if>
             AND s.deleted = '0'
         </where>
-        ORDER BY s.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY s.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

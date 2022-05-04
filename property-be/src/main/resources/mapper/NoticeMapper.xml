@@ -7,6 +7,7 @@
                n.title                                    title,
                n.content                                  content,
                n.status                                   status,
+               n.image_url                                imageUrl,
                date_format(n.release_time, '%Y-%m-%d %T') releaseTime,
                date_format(n.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(n.gmt_modified, '%Y-%m-%d %T') gmtModified
@@ -16,14 +17,15 @@
     </select>
 
     <select id="likeNoticeTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
-        SELECT n.id                                       id,
-               n.title                                    title,
-               n.content                                  content,
-               n.status                                   status,
+        SELECT n.id id,
+               n.title title,
+               n.content content,
+               n.status status,
+               n.image_url imageUrl,
                date_format(n.release_time, '%Y-%m-%d %T') releaseTime,
-               date_format(n.gmt_create, '%Y-%m-%d %T')   gmtCreate,
+               date_format(n.gmt_create, '%Y-%m-%d %T') gmtCreate,
                date_format(n.gmt_modified, '%Y-%m-%d %T') gmtModified
-        FROM tb_notice n
+               FROM tb_notice n
         <where>
             <if test="title != null and title != ''">
                 n.title LIKE concat('%', #{title}, '%')
@@ -33,6 +35,6 @@
             </if>
             AND n.deleted = '0'
         </where>
-        ORDER BY n.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY n.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

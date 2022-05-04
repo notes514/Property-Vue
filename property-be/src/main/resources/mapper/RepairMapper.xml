@@ -12,11 +12,12 @@
                r.repair_content                           repairContent,
                r.handler                                  handler,
                r.status                                   status,
+               r.image_url                                imageUrl,
                date_format(r.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(r.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_repair r
         WHERE r.deleted = '0'
-        ORDER BY r.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY r.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeRepairTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
@@ -29,6 +30,7 @@
                r.repair_content                           repairContent,
                r.handler                                  handler,
                r.status                                   status,
+               r.image_url                                imageUrl,
                date_format(r.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(r.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_repair r
@@ -41,6 +43,6 @@
             </if>
             AND r.deleted = '0'
         </where>
-        ORDER BY r.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY r.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

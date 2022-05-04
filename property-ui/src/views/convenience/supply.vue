@@ -28,8 +28,9 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="title" label="供求标题" width="250"></el-table-column>
-      <el-table-column align="center" prop="address" label="供求地点" width="300"/>
+      <el-table-column align="center" prop="title" label="供求标题" width="200"></el-table-column>
+      <el-table-column align="center" prop="content" label="供求标题" width="300"></el-table-column>
+      <el-table-column align="center" prop="address" label="供求地点" width="120"/>
       <el-table-column align="center" prop="ownerName" label="供求人员" width="120"></el-table-column>
       <el-table-column align="center" prop="status" label="供求状态" :formatter="statusFormat" width="110"/>
       <el-table-column align="center" prop="startTime" label="开始时间" width="160"/>
@@ -62,6 +63,10 @@
                style='width: 100%; margin-left: 48px'>
         <el-form-item label="供求标题" v-show="dialogStatus !== 'remove'" required>
           <el-input type="text" :disabled="true" v-model="tempSupply.title" style="width: 50%;">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="供求内容" v-show="dialogStatus !== 'remove'" required>
+          <el-input type="text" :disabled="true" v-model="tempSupply.content" style="width: 50%;">
           </el-input>
         </el-form-item>
         <el-form-item label="供求地址" v-show="dialogStatus !== 'remove'" required>
@@ -137,6 +142,7 @@ export default {
         id: '',
         ownerName: '',
         title: '',
+        content: '',
         address: '',
         status: '',
         startTime: '',
@@ -198,6 +204,7 @@ export default {
       this.tempSupply.id = supply.id;
       this.tempSupply.ownerName = supply.ownerName;
       this.tempSupply.title = supply.title;
+      this.tempSupply.content = supply.content;
       this.tempSupply.address = supply.address;
       this.tempSupply.status = supply.status;
       this.tempSupply.startTime = supply.startTime;

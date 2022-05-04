@@ -43,6 +43,8 @@ public class Notice implements Serializable {
      */
     private String status;
 
+    private String imageUrl;
+
     /**
      * 发布时间
      */

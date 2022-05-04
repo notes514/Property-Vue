@@ -33,7 +33,7 @@
       <el-table-column align="center" prop="ownerName" label="投诉人员" width="150" ></el-table-column>
       <el-table-column align="center" prop="status" label="处理状态" :formatter="statusFormat" width="120" />
       <el-table-column align="center" prop="complaintTime" label="投诉时间" width="160" />
-      <el-table-column align="center" prop="handler" label="处理人" width="120" />
+<!--      <el-table-column align="center" prop="handler" label="处理人" width="120" />-->
       <el-table-column align="center" prop="gmtCreate" label="创建时间" width="160" />
       <el-table-column align="center" prop="gmtModified" label="最近修改时间" width="160" />
       <el-table-column align="center" label="管理" width="228">

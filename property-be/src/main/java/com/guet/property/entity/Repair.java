@@ -63,6 +63,8 @@ public class Repair implements Serializable {
      */
     private String status;
 
+    private String imageUrl;
+
     /**
      * 逻辑删除:0-未删除（默认），1-已删除
      */

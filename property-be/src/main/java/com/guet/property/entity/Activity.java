@@ -33,6 +33,8 @@ public class Activity implements Serializable {
      */
     private String title;
 
+    private String content;
+
     /**
      * 活动地点
      */
@@ -47,6 +49,8 @@ public class Activity implements Serializable {
      * 状态:0-活动未开始（默认），1-活动进行中，2-活动已结束
      */
     private String status;
+
+    private String imageUrl;
 
     /**
      * 活动开始时间

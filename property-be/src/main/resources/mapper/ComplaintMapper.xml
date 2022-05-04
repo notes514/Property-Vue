@@ -15,7 +15,7 @@
                date_format(c.gmt_modified, '%Y-%m-%d %T')   gmtModified
         FROM tb_complaint c
         WHERE c.deleted = '0'
-        ORDER BY c.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY c.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeComplaintTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
@@ -39,6 +39,6 @@
             </if>
             AND c.deleted = '0'
         </where>
-        ORDER BY c.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY c.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

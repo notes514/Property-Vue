@@ -28,9 +28,9 @@
           <span v-text="getIndex(scope.$index)"> </span>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="buildingName" label="楼栋" width="140" ></el-table-column>
-      <el-table-column align="center" prop="repairContent" label="报修类型" width="200" ></el-table-column>
-      <el-table-column align="center" prop="deviceName" label="报修内容" width="300" ></el-table-column>
+<!--      <el-table-column align="center" prop="buildingName" label="楼栋" width="140" ></el-table-column>-->
+      <el-table-column align="center" prop="repairType" label="报修类型" width="200" ></el-table-column>
+      <el-table-column align="center" prop="repairContent" label="报修内容" width="400" ></el-table-column>
       <el-table-column align="center" prop="ownerName" label="报修人员" width="140" ></el-table-column>
       <el-table-column align="center" prop="status" label="处理状态" :formatter="statusFormat" width="140" />
       <el-table-column align="center" prop="handler" label="处理人" :formatter="statusFormat" width="140" />

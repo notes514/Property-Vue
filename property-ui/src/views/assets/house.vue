@@ -7,11 +7,11 @@
                     style="width: 250px">
           </el-input>
         </el-form-item>
-        <el-form-item label="房屋名称">
-          <el-input prefix-icon="el-icon-search" placeholder="请输入房屋名称" v-model="houseNameText" clearable
-                    style="width: 250px">
-          </el-input>
-        </el-form-item>
+<!--        <el-form-item label="房屋名称">-->
+<!--          <el-input prefix-icon="el-icon-search" placeholder="请输入房屋名称" v-model="houseNameText" clearable-->
+<!--                    style="width: 250px">-->
+<!--          </el-input>-->
+<!--        </el-form-item>-->
         <el-form-item label="房屋状态">
           <el-select v-model="typeSelect" placeholder="请选择房屋状态">
             <el-option label="全部" value="-1"></el-option>

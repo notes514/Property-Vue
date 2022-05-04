@@ -11,7 +11,7 @@
                date_format(ch.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_charge ch
         WHERE ch.deleted = '0'
-        ORDER BY ch.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY ch.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeChargeName" resultType="com.alibaba.fastjson.JSONObject">
@@ -28,6 +28,6 @@
             </if>
             AND ch.deleted = '0'
         </where>
-        ORDER BY ch.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY ch.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

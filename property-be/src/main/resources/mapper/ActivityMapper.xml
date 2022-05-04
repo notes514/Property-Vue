@@ -5,24 +5,28 @@
     <select id="listActivity" resultType="com.alibaba.fastjson.JSONObject">
         SELECT a.id                                       id,
                a.title                                    title,
+               a.content                                  content,
                a.address                                  address,
                a.organizer                                organizer,
                a.status                                   status,
+               a.image_url                                imageUrl,
                date_format(a.start_time, '%Y-%m-%d %T')   startTime,
                date_format(a.end_time, '%Y-%m-%d %T')     endTime,
                date_format(a.gmt_create, '%Y-%m-%d %T')   gmtCreate,
                date_format(a.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_activity a
         WHERE a.deleted = '0'
-        ORDER BY a.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY a.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeActivityTitleAndStatus" resultType="com.alibaba.fastjson.JSONObject">
         SELECT a.id                                       id,
                a.title                                    title,
+               a.content                                  content,
                a.address                                  address,
                a.organizer                                organizer,
                a.status                                   status,
+               a.image_url                                imageUrl,
                date_format(a.start_time, '%Y-%m-%d %T')   startTime,
                date_format(a.end_time, '%Y-%m-%d %T')     endTime,
                date_format(a.gmt_create, '%Y-%m-%d %T')   gmtCreate,
@@ -37,6 +41,6 @@
             </if>
             AND a.deleted = '0'
         </where>
-        ORDER BY a.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY a.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

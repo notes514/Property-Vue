@@ -14,7 +14,7 @@
                date_format(b.gmt_modified, '%Y-%m-%d %T') gmtModified
         FROM tb_building b
         WHERE b.deleted = '0'
-        ORDER BY b.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY b.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 
     <select id="likeBuildingNameAndType" resultType="com.alibaba.fastjson.JSONObject">
@@ -37,6 +37,6 @@
             </if>
             AND b.deleted = '0'
         </where>
-        ORDER BY b.id ASC LIMIT #{offSet}, #{pageRow}
+        ORDER BY b.id DESC LIMIT #{offSet}, #{pageRow}
     </select>
 </mapper>

@@ -34,6 +34,11 @@ public class Complaint implements Serializable {
     private Integer ownerId;
 
     /**
+     * 投诉人员（业主）ID
+     */
+    private String ownerName;
+
+    /**
      * 投诉类型
      */
     private String complaintType;

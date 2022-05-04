@@ -30,7 +30,7 @@
         SELECT o.id                                       id,
                o.role_id                                  roleId,
                o.building_id                              buildingId,
-               o.buildingName                             buildingName,
+               o.building_name                            buildingName,
                o.name                                     name,
                o.login_name                               loginName,
                o.password                                 password,
